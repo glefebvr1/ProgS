@@ -105,6 +105,8 @@ void main(){
 	choix = Saisie_Entier();
 	}
 
+	free(nom);
+	free(prenom);
 
 }
 
