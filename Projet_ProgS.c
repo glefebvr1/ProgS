@@ -108,10 +108,23 @@ void Saisie_nom(char **nom, char **prenom, char chaine[MAX_CHAINE]){
 
 }
 
-
+// Propose et vérifie la saisie d'un entier par l'utilisateur
 int Saisie_Entier(){
 
+   char entier[10];
+   int ret, valeur;
 
+   // lit un entier de max 9 caractères
+   fgets(entier, 10, stdin);
+   ret = sscanf(entier, "%d", &valeur);
+
+   while (ret != 1) {
+       fgets(entier, 10, stdin);
+       ret = sscanf(entier, "%d", &valeur);
+   }
+
+   return valeur;
+}
 	
 }
 
