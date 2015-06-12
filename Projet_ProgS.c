@@ -142,16 +142,26 @@ type_ligne_commande *Recherche_Ligne(int no, int nb_ligne_commande, type_ligne_c
 		if (nb_ligne_commande = tab_commande.ptr_produit.no){
 			trouve = VRAI;
 			pointeur = &tab_commande[i];
+			return pointeur;
 		}
 	}
-
-	return pointeur;
 }
 
 //Recherche dans le tableau de produits si un n° de produit existe déjà. Retourne l'adresse du produit correspondant ou NULL si ce produit n'existe pas.
 type_produit *Recherche_Produit(int no, int nb_ligne_produit, type_produit *tab_produit){
 
+	int trouve = FAUX;
+	type_ligne_commande *pointeur;
 
+	for (int i = 0; i < nb || !trouve; i++) {
+		
+		if (nb_ligne_commande = tab_produit.no){
+			trouve = VRAI;
+			pointeur = &tab_produit[i];
+		}
+	}
+
+	return pointeur;
 	
 }
 
