@@ -40,70 +40,29 @@ type_produit *Charge_Produits(char chemin_fichier[MAX_CHAINE], int *nb_produits)
 //Recherche dans le tableau de produits si un n° de produit existe déjà. Retourne l'adresse du produit correspondant ou NULL si ce produit n'existe pas.
 type_produit *Recherche_Produit(int no, int *nb_ligne_produit, type_produit *tab_produit);
 
-void Creation_Ligne(type_ligne_commande *tab_commande, int nb_ligne_commande, type_produit nv_ptr_produit, int quantite);
+void Creation_Ligne(type_produit *tab_produit, type_ligne_commande *tab_commande, int nb_ligne_commande, type_produit ptr_produit);
 
-void Modif_Ligne(type_ligne_commande *tab_commande,int nv_quantite, type_ligne_commande ptr_commande, int quantite);
+void Modif_Ligne(type_ligne_commande *tab_commande,int nv_quantite, type_ligne_commande ptr_commande);
 
-void Commande_Produit(type_produit *tab_produit, type_ligne_commande *tab_commande, int *nb_ligne_produit);
+void Commande_Produit(type_produit *tab_produit, type_ligne_commande *tab_commande, int nb_ligne_commande, int *nb_ligne_produit);
 
-void Supprimer_ligne(type_ligne_commande *tab_commande, int nb_ligne_commande, type_ligne_commande adresse_commande);
+void Supprimer_ligne(type_ligne_commande *tab_commande, int nb_ligne_commande, int no);
 
-void Creation_Facture(char *nom, char *prenom, type_ligne_commande *tab_commande, int nb_ligne_commande);
+void Creation_Facture(char *nom, char *prenom, float total, type_ligne_commande *tab_commande, int nb_ligne_commande);
 
 void main(){
 
-	int choix;
-	int init_nom;
-	int i;
-	float *total;
 	char *nom;
 	char *prenom;
+	float total;
 	int nb_ligne_commande;
 	type_ligne_commande *tab_commande;
 	int *nb_ligne_produit;
 	type_produit *tab_produit;
 	char chaine_tmp[MAX_CHAINE];
 
-	choix = 0;
-	init_nom = FAUX;
-	i = 0;
 
-	//Option
-	puts("1. Saisir le nom et le prenom du client.");
-	puts("2. Commander un produit.");
-	puts("3. Afficher la liste des produits.");
-	puts("4. Generer la facture");
-	puts("");
-	puts("0. Quitter le programme.");
 
-	choix = Saisie_Entier();
-	while(choix != 0){
-		switch (choix){
-			case 1:
-			  Saisie_nom(nom,prenom,chaine_tmp);
-			  init_nom = VRAI;
-			  break;
-			case 2:
-			  Commande_Produit(tab_produit,tab_commande,nb_ligne_commande,)
-			  break;
-			case 3:
-			  for (i = 0; i < nb_ligne_commande; i++){
-			  	Afficher_Ligne_Commande(tab_commande[i])
-			  }
-			  printf("Total : %.2f\n", total);
-			  break;
-			case 4:
-			  Creation_Facture(nom, prenom, tab_commande, nb_ligne_commande)
-			  break;
-			case 0:
-			  puts("On quitte le programme.")
-			  break;
-			default:
-			  puts("Choix non disponible.")
-			  break;
-			}
-	choix = Saisie_Entier();
-	}
 
 
 }
@@ -167,7 +126,7 @@ int Saisie_Entier(){
 void Afficher_Ligne_Commande(type_ligne_commande ligne_commande){
 
 
-	printf("Commande de %d %s %s, prix unitaire : %.2f CHF, prix total : %.2f CHF.\n", tab_commande.quantite, tab_commande.ptr_produit.nom, tab_commande.ptr_produit.ref, tab_commande.ptr_produit.prix_unitaire, tab_commande.total_ligne);
+	printf("%d\t %s\t %s\t %f\t %d\t %f\t", ligne_commande.ptr_produit.no, ligne_commande.ptr_produit.marque, ligne_commande.ptr_produit.ref, ligne_commande.ptr_produit.prix_unitaire, ligne_commande.quantite, ligne_commande.total_ligne);
 
 
 }
@@ -196,7 +155,7 @@ type_produit *Recherche_Produit(int no, int *nb_ligne_produit, type_produit *tab
 	int trouve = FAUX;
 	type_ligne_commande *pointeur;
 
-	for (int i = 0; i < nb_ligne_produit || !trouve; i++) {
+	for (int i = 0; i < nb || !trouve; i++) {
 		
 		if (nb_ligne_commande = tab_produit.no){
 			trouve = VRAI;
@@ -209,6 +168,7 @@ type_produit *Recherche_Produit(int no, int *nb_ligne_produit, type_produit *tab
 	return pointeur;
 }
 
+<<<<<<< HEAD
 // Charge le fichier produit et l'enregistre dans un tableau de structures
 type_produit *Charge_Produits(char chemin_fichier[MAX_CHAINE], int *nb_produits) {
 	FILE *fichier_produit;
@@ -254,30 +214,24 @@ type_produit *Charge_Produits(char chemin_fichier[MAX_CHAINE], int *nb_produits)
 	}
 }
 
-void Creation_Ligne(type_ligne_commande *tab_commande, int nb_ligne_commande, type_produit nv_ptr_produit, int quantite, float *total){
+void Creation_Ligne(type_produit *tab_produit, type_ligne_commande *tab_commande, int nb_ligne_commande){
+=======
+void Creation_Ligne(type_produit *tab_produit, type_ligne_commande *tab_commande, int nb_ligne_commande, type_produit ptr_produit){
+>>>>>>> 6e49cd8e4040dd54dbe8c6617e9e884ee5800c51
 
 	(*nb_ligne_commande)++;
-	//Ajout des valeurs quantité et total dans le tableau commande
-	tab_commande[nb_ligne_commande].ptr_produit = nv_ptr_produit;
-	tab_commande[nb_ligne_commande].quantite = quantite;
-	tab_commande[nb_ligne_commande].total_ligne = quantite*tab_commande[nb_ligne_commande].ptr_produit.prix_unitaire;
-	//modification du total
-	total = total + tab_commande[nb_ligne_commande].total_ligne;
+	
 
-	//Affichage du resultat
-	Afficher_Ligne_Commande(tab_commande[nb_ligne_commande])
-
+	
+	
+	
 }
 
-void Modif_Ligne(type_ligne_commande *tab_commande,int nv_quantite, type_ligne_commande ptr_commande, float *total){
+void Modif_Ligne(type_ligne_commande *tab_commande,int nv_quantite, type_ligne_commande ptr_commande){
 
-	//modification des valeurs quantité et total dans le tableau commande
-	ptr_commande->quantite = nv_quantite;
-	ptr_commande->total_ligne = nv_quantite*ptr_commande->ptr_produit.prix_unitaire;
-	Afficher_Ligne_Commande(*ptr_commande)
-	//modification du total
-	total = total + ptr_commande->total_ligne;
 
+
+	
 }
 
 void Commande_Produit(type_produit *tab_produit, type_ligne_commande *tab_commande, int nb_ligne_commande, int *nb_ligne_produit){
@@ -311,31 +265,23 @@ void Commande_Produit(type_produit *tab_produit, type_ligne_commande *tab_comman
 		puts("Commande impossible car le produit n'existe pas.")
 	} else {
 		if (adresse_commande == NULL) {
-			Creation_Ligne(tab_commande, nb_ligne_commande, adresse_produit, quantite, total);
+			Creation_Ligne(tab_produit, tab_commande, nb_ligne_commande, adresse_produit);
 		} else {
-			if (quantite = 0){
-				Supprimer_ligne(tab_commande, nb_ligne_commande, adresse_commande,total)
-			} else {
-				Modif_Ligne(tab_commande,quantite, adresse_commande,total);	
-			}
+			Modif_Ligne(tab_commande,quantite, adresse_commande);
 		}
+
 	}
+
+	
+
+
+	
 }
 
-void Supprimer_ligne(type_ligne_commande *tab_commande, int nb_ligne_commande, type_ligne_commande adresse_commande, float *total){
+void Supprimer_ligne(type_ligne_commande *tab_commande, int nb_ligne_commande, int no){
 
-	type_ligne_commande *i;
 
-	//modification du total
-	total = total - adresse_commande->total_ligne
-
-	puts("Supression de la commande.")
-	for ( i = adresse_commande; i < &tab_commande[nb_ligne_commande - 1]; i++) {
-		*adresse_commande = *adresse_commande + 1;
-	}
-
-	(*nb_ligne_commande)--;
-
+	
 }
 
 void Creation_Facture(char *nom, char *prenom, float total, type_ligne_commande *tab_commande, int nb_ligne_commande){
