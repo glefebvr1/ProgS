@@ -18,7 +18,10 @@
     <ClCompile Include="Projet_ProgS.c">
       <Filter>Fichiers sources</Filter>
     </ClCompile>
-    <ClCompile Include="Source.cpp">
+    <ClCompile Include="Charge_Produits.cpp">
+      <Filter>Fichiers sources</Filter>
+    </ClCompile>
+    <ClCompile Include="Creation_Facture.cpp">
       <Filter>Fichiers sources</Filter>
     </ClCompile>
   </ItemGroup>
