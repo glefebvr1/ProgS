@@ -25,6 +25,8 @@ typedef struct {
 //Saisie d'une chaine et 
 void Saisie_Chaine(char chaine[MAX_CHAINE]);
 
+void Saisie_nom(char **nom, char **prenom, char chaine[MAX_CHAINE]);
+
 int Saisie_Entier();
 
 void Afficher_Ligne_Commande(type_ligne_commande ligne_commande);
@@ -65,15 +67,47 @@ void main(){
 
 }
 
-
 //Saisie d'une chaine et 
 void Saisie_Chaine(char chaine[MAX_CHAINE]){
 
 	fgets(chaine, MAX_CHAINE, stdin);
 	//suppression du '\n'
-	chaine[strlen(chaine)-1]='\0';
-		
+	chaine[strlen(chaine) - 1] = '\0';
+
 }
+
+void Saisie_nom(char **nom, char **prenom, char chaine[MAX_CHAINE]){
+
+
+	//Saisie du nom
+	puts("Entrez le nom du client.");
+	Saisie_Chaine(chaine);
+	*nom = (char *)malloc(sizeof(char)*strlen(chaine));
+	strcpy(*nom, chaine);
+	//vérification que la nom n'est pas vide
+	while (chaine[0] == '\0'){
+		puts("Entrez le nom du client. Ceci est obligatoire !");
+		Saisie_Chaine(chaine);
+		*nom = (char *)malloc(sizeof(char)*strlen(chaine));
+		strcpy(*nom, chaine);
+	}
+
+	//saisie du prenom
+	puts("Entrez le prenom du client.");
+	Saisie_Chaine(chaine);
+	*prenom = (char *)malloc(sizeof(char)*strlen(chaine));
+	strcpy(*prenom, chaine);
+	//vérification que la prénom n'est pas vide
+	while (chaine[0] == '\0'){
+		puts("Entrez le prenom du client. Ceci est obligatoire !");
+		Saisie_Chaine(chaine);
+		*prenom = (char *)malloc(sizeof(char)*strlen(chaine));
+		strcpy(*prenom, chaine);
+	}
+
+
+}
+
 
 int Saisie_Entier(){
 
