@@ -1,4 +1,3 @@
-CACAPROUT
 #include <stdlib.h>
 #include <stdio.h>
 #include <string.h>
@@ -70,8 +69,10 @@ void main(){
 //Saisie d'une chaine et 
 void Saisie_Chaine(char chaine[MAX_CHAINE]){
 
-
-	
+	fgets(chaine, MAX_CHAINE, stdin);
+	//suppression du '\n'
+	chaine[strlen(chaine)-1]='\0';
+		
 }
 
 int Saisie_Entier(){
