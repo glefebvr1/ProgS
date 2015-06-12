@@ -2,7 +2,7 @@
 #include <stdio.h>
 #include <string.h>
 
-#define MAX_CHAINE 50
+#define MAX_CHAINE 255
 #define VRAI 1
 #define FAUX 0
 
@@ -31,6 +31,9 @@ void Afficher_Ligne_Commande(type_ligne_commande ligne_commande);
 
 //Recherche dans le tableau de commande si un n° de produit existe déjà
 type_ligne_commande *Recherche_Ligne(int no, int nb_ligne_commande, type_ligne_commande *tab_commande);
+
+// Charge le fichier produit et l'enregistre dans un tableau de structures
+type_produit *Charge_Produits(char chemin_fichier[MAX_CHAINE], int *nb_produits);
 
 //Recherche dans le tableau de produits si un n° de produit existe déjà. Retourne l'adresse du produit correspondant ou NULL si ce produit n'existe pas.
 type_produit *Recherche_Produit(int no, int nb_ligne_produit, type_produit *tab_produit);
