@@ -13,13 +13,13 @@ typedef struct {
 	char *marque;
 	char *ref;
 	float prix_unitaire;
-}type_produit;
+} type_produit;
 
-struct{
+typedef struct {
 	type_produit *ptr_produit;
 	int quantite;
 	float total_ligne;
-}type_ligne_commande;
+} type_ligne_commande;
 
 
 //Saisie d'une chaine et 
@@ -50,9 +50,9 @@ void main(){
 	char *nom;
 	char *prenom;
 	float total;
-	int nb_ligne_commande
+	int nb_ligne_commande;
 	type_ligne_commande *tab_commande;
-	int nb_ligne_produit
+	int nb_ligne_produit;
 	type_produit *tab_produit;
 	char chaine_tmp[MAX_CHAINE];
 
