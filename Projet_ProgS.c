@@ -129,7 +129,9 @@ int Saisie_Entier(){
 void Afficher_Ligne_Commande(type_ligne_commande ligne_commande){
 
 
-	
+	printf("%d\t %s\t %s\t %f\t %d\t %f\t", ligne_commande.ptr_produit.no, ligne_commande.ptr_produit.marque, ligne_commande.ptr_produit.ref, ligne_commande.ptr_produit.prix_unitaire, ligne_commande.quantite, ligne_commande.total_ligne);
+
+
 }
 
 //Recherche dans le tableau de commande si un n° de produit existe déjà
