@@ -125,8 +125,6 @@ int Saisie_Entier(){
 
    return valeur;
 }
-	
-}
 
 void Afficher_Ligne_Commande(type_ligne_commande ligne_commande){
 
