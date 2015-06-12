@@ -78,7 +78,6 @@ void Saisie_Chaine(char chaine[MAX_CHAINE]){
 
 void Saisie_nom(char **nom, char **prenom, char chaine[MAX_CHAINE]){
 
-
 	//Saisie du nom
 	puts("Entrez le nom du client.");
 	Saisie_Chaine(chaine);
@@ -104,8 +103,6 @@ void Saisie_nom(char **nom, char **prenom, char chaine[MAX_CHAINE]){
 		*prenom = (char *)malloc(sizeof(char)*strlen(chaine));
 		strcpy(*prenom, chaine);
 	}
-
-
 }
 
 // Propose et vérifie la saisie d'un entier par l'utilisateur
@@ -137,8 +134,18 @@ void Afficher_Ligne_Commande(type_ligne_commande ligne_commande){
 //Recherche dans le tableau de commande si un n° de produit existe déjà
 type_ligne_commande *Recherche_Ligne(int no, int nb_ligne_commande, type_ligne_commande *tab_commande){
 
+	int trouve = FAUX;
+	type_ligne_commande *pointeur;
 
-	
+	for (int i = 0; i < nb || !trouve; i++) {
+		
+		if (nb_ligne_commande = tab_commande.ptr_produit.no){
+			trouve = VRAI;
+			pointeur = &tab_commande[i];
+		}
+	}
+
+	return pointeur;
 }
 
 //Recherche dans le tableau de produits si un n° de produit existe déjà. Retourne l'adresse du produit correspondant ou NULL si ce produit n'existe pas.
