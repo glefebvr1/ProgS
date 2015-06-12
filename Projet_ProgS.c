@@ -38,13 +38,13 @@ type_ligne_commande *Recherche_Ligne(int no, int nb_ligne_commande, type_ligne_c
 type_produit *Charge_Produits(char chemin_fichier[MAX_CHAINE], int *nb_produits);
 
 //Recherche dans le tableau de produits si un n° de produit existe déjà. Retourne l'adresse du produit correspondant ou NULL si ce produit n'existe pas.
-type_produit *Recherche_Produit(int no, int nb_ligne_produit, type_produit *tab_produit);
+type_produit *Recherche_Produit(int no, int *nb_ligne_produit, type_produit *tab_produit);
 
-void Creation_Ligne(type_produit *tab_produit, type_ligne_commande *tab_commande, int nb_ligne_commande);
+void Creation_Ligne(type_produit *tab_produit, type_ligne_commande *tab_commande, int nb_ligne_commande, type_produit ptr_produit);
 
-void Modif_Ligne(type_ligne_commande *tab_commande,int nv_quantite);
+void Modif_Ligne(type_ligne_commande *tab_commande,int nv_quantite, type_ligne_commande ptr_commande);
 
-void Commande_Produit(type_produit *tab_produit, type_ligne_commande *tab_commande, int nb_ligne_commande, int nb_ligne_produit);
+void Commande_Produit(type_produit *tab_produit, type_ligne_commande *tab_commande, int nb_ligne_commande, int *nb_ligne_produit);
 
 void Supprimer_ligne(type_ligne_commande *tab_commande, int nb_ligne_commande, int no);
 
@@ -57,7 +57,7 @@ void main(){
 	float total;
 	int nb_ligne_commande;
 	type_ligne_commande *tab_commande;
-	int nb_ligne_produit;
+	int *nb_ligne_produit;
 	type_produit *tab_produit;
 	char chaine_tmp[MAX_CHAINE];
 
@@ -142,13 +142,15 @@ type_ligne_commande *Recherche_Ligne(int no, int nb_ligne_commande, type_ligne_c
 		if (nb_ligne_commande = tab_commande.ptr_produit.no){
 			trouve = VRAI;
 			pointeur = &tab_commande[i];
-			return pointeur;
+		} else {
+			pointeur = NULL;
 		}
 	}
+	return pointeur;
 }
 
 //Recherche dans le tableau de produits si un n° de produit existe déjà. Retourne l'adresse du produit correspondant ou NULL si ce produit n'existe pas.
-type_produit *Recherche_Produit(int no, int nb_ligne_produit, type_produit *tab_produit){
+type_produit *Recherche_Produit(int no, int *nb_ligne_produit, type_produit *tab_produit){
 
 	int trouve = FAUX;
 	type_ligne_commande *pointeur;
@@ -158,26 +160,70 @@ type_produit *Recherche_Produit(int no, int nb_ligne_produit, type_produit *tab_
 		if (nb_ligne_commande = tab_produit.no){
 			trouve = VRAI;
 			pointeur = &tab_produit[i];
+		} else {
+			pointeur = NULL;
 		}
 	}
 
 	return pointeur;
+}
+
+void Creation_Ligne(type_produit *tab_produit, type_ligne_commande *tab_commande, int nb_ligne_commande, type_produit ptr_produit){
+
+	(*nb_ligne_commande)++;
+	
+
+	
+	
 	
 }
 
-void Creation_Ligne(type_produit *tab_produit, type_ligne_commande *tab_commande, int nb_ligne_commande){
+void Modif_Ligne(type_ligne_commande *tab_commande,int nv_quantite, type_ligne_commande ptr_commande){
 
-
-	
-}
-
-void Modif_Ligne(type_ligne_commande *tab_commande,int nv_quantite){
 
 
 	
 }
 
-void Commande_Produit(type_produit *tab_produit, type_ligne_commande *tab_commande, int nb_ligne_commande, int nb_ligne_produit){
+void Commande_Produit(type_produit *tab_produit, type_ligne_commande *tab_commande, int nb_ligne_commande, int *nb_ligne_produit){
+
+	int no_produit, quantite;
+	type_produit *adresse_produit;
+	type_ligne_commande *adresse_commande;
+
+	//Demande du numéro de produit
+	printf("Entrez le numero de produit : ");
+	no_produit = Saisie_Entier();
+	while(no_produit < 0){
+		printf("Un numero de produit ne peut pas être negatif. Entrez à nouveau : ");
+		no_produit = Saisie_Entier();
+	}
+
+	//Demande la quantité
+	Printf("Entrez la quantite désirée");
+	quantite = Saisie_Entier();
+	while(quantite < 0){
+		printf("La quantite ne peut pas etre negative. Entrez a nouveau : ");
+		quantite = Saisie_Entier();
+	}
+
+	//Recherche des adresses
+	adresse_produit = Recherche_Produit(no_produit, *nb_ligne_produit, tab_produit);
+	adresse_commande = Recherche_Ligne(no_produit, nb_ligne_commande, tab_commande);
+
+	//On recherche si le produit existe.
+	if  (adresse_produit == NULL){
+		puts("Commande impossible car le produit n'existe pas.")
+	} else {
+		if (adresse_commande == NULL) {
+			Creation_Ligne(tab_produit, tab_commande, nb_ligne_commande, adresse_produit);
+		} else {
+			Modif_Ligne(tab_commande,quantite, adresse_commande);
+		}
+
+	}
+
+	
 
 
 	
