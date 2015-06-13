@@ -27,5 +27,8 @@
     <ClCompile Include="Saisie_Chaine.cpp">
       <Filter>Fichiers sources</Filter>
     </ClCompile>
+    <ClCompile Include="Saisie_Entier.cpp">
+      <Filter>Fichiers sources</Filter>
+    </ClCompile>
   </ItemGroup>
 </Project>

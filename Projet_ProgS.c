@@ -2,6 +2,7 @@
 #include <stdio.h>
 #include <string.h>
 
+#define MAX_INT 10
 #define MAX_CHAINE 255
 #define MAX_PRODUITS 255
 #define VRAI 1
@@ -124,12 +125,18 @@ void main() {
 // - Saisie d'une chaine trop longue
 // - allocation mémoire pour strlen + 1
 // - saisie d'une chaine vide (\n)
-char *Saisie_Chaine() {
+char *Saisie_Chaine(){
 	char chaine_tmp[MAX_CHAINE], *chaine;
 
 	fgets(chaine_tmp, MAX_CHAINE, stdin);
-	while (chaine_tmp[0] == '\n'){
-		puts("Saisie invalide");
+	while (chaine_tmp[0] == '\n' || chaine_tmp[strlen(chaine_tmp) - 1] != '\n') {
+		if (chaine_tmp[strlen(chaine_tmp) - 1] != '\n') {
+			while (getchar() != '\n');
+			puts("Nombre de caracteres trop grand");
+		}
+		else {
+			puts("Saisie invalide");
+		}
 		fgets(chaine_tmp, MAX_CHAINE, stdin);
 	}
 
@@ -145,21 +152,32 @@ char *Saisie_Chaine() {
 }
 
 // Propose et vérifie la saisie d'un entier par l'utilisateur
+// Tests :
+// - Saisie vide (\n)
+// - Saisie trop longue
+// - Saisie de valeur non entières
 int Saisie_Entier(){
 
-   char entier[10];
-   int ret, valeur;
+	char entier[MAX_INT];
+	int ret, valeur;
 
-   // lit un entier de max 9 caractères
-   fgets(entier, 10, stdin);
-   ret = sscanf(entier, "%d", &valeur);
+	// lit un entier de max MAX_INT caractères
+	fgets(entier, MAX_INT, stdin);
+	ret = sscanf(entier, "%d", &valeur);
 
-   while (ret != 1) {
-       fgets(entier, 10, stdin);
-       ret = sscanf(entier, "%d", &valeur);
-   }
+	while (ret != 1 || entier[strlen(entier) - 1] != '\n') {
+		if (entier[strlen(entier) - 1] != '\n') {
+			while (getchar() != '\n');
+			puts("Nombre trop grand");
+		}
+		else {
+			puts("Saisie invalide");
+		}
+		fgets(entier, MAX_INT, stdin);
+		ret = sscanf(entier, "%d", &valeur);
+	}
 
-   return valeur;
+	return valeur;
 }
 
 void Afficher_Ligne_Commande(type_ligne_commande ligne_commande){
