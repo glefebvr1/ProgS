@@ -3,8 +3,10 @@
 #include <string.h>
 
 #define MAX_CHAINE 255
+#define MAX_PRODUITS 255
 #define VRAI 1
 #define FAUX 0
+#define FPRODUIT produit.txt
 
 //structures
 
@@ -23,9 +25,7 @@ typedef struct {
 
 
 //Saisie d'une chaine et 
-void Saisie_Chaine(char chaine[MAX_CHAINE]);
-
-void Saisie_nom(char **nom, char **prenom, char chaine[MAX_CHAINE]);
+char *Saisie_Chaine();
 
 int Saisie_Entier();
 
@@ -35,38 +35,40 @@ void Afficher_Ligne_Commande(type_ligne_commande ligne_commande);
 type_ligne_commande *Recherche_Ligne(int no, int nb_ligne_commande, type_ligne_commande *tab_commande);
 
 // Charge le fichier produit et l'enregistre dans un tableau de structures
-type_produit *Charge_Produits(char chemin_fichier[MAX_CHAINE], int *nb_produits);
+type_produit *Charge_Produits(char chemin_fichier[], int *nb_produits);
 
 //Recherche dans le tableau de produits si un n° de produit existe déjà. Retourne l'adresse du produit correspondant ou NULL si ce produit n'existe pas.
 type_produit *Recherche_Produit(int no, int *nb_ligne_produit, type_produit *tab_produit);
 
-void Creation_Ligne(type_ligne_commande *tab_commande, int nb_ligne_commande, type_produit nv_ptr_produit, int quantite);
+void Creation_Ligne(type_ligne_commande *tab_commande, int *nb_ligne_commande, type_produit *nv_ptr_produit, int quantite, float *total);
 
-void Modif_Ligne(type_ligne_commande *tab_commande,int nv_quantite, type_ligne_commande ptr_commande, int quantite);
+void Modif_Ligne(type_ligne_commande *tab_commande, int nv_quantite, type_ligne_commande *ptr_commande, float *total);
 
-void Commande_Produit(type_produit *tab_produit, type_ligne_commande *tab_commande, int *nb_ligne_produit);
+void Commande_Produit(type_produit *tab_produit, type_ligne_commande *tab_commande, int *nb_ligne_commande, int *nb_ligne_produit, float *total);
 
-void Supprimer_ligne(type_ligne_commande *tab_commande, int nb_ligne_commande, type_ligne_commande adresse_commande);
+void Supprimer_ligne(type_ligne_commande *tab_commande, int *nb_ligne_commande, type_ligne_commande *adresse_commande, float *total);
 
-bool Creation_Facture(char chemin_fichier[MAX_CHAINE], char *nom, char *prenom, float total, type_ligne_commande *tab_commande, int nb_ligne_commande);
+int Creation_Facture(char *nom, char *prenom, float total, type_ligne_commande *tab_commande, int nb_ligne_commande);
 
-void main(){
+void main() {
 
 	int choix;
 	int init_nom;
 	int i;
-	float *total;
+	float total;
 	char *nom;
 	char *prenom;
 	int nb_ligne_commande;
 	type_ligne_commande *tab_commande;
-	int *nb_ligne_produit;
+	int nb_ligne_produit;
 	type_produit *tab_produit;
 	char chaine_tmp[MAX_CHAINE];
 
 	choix = 0;
 	init_nom = FAUX;
 	i = 0;
+	tab_commande = NULL;
+	tab_produit = NULL;
 
 	//Option
 	puts("1. Saisir le nom et le prenom du client.");
@@ -80,72 +82,66 @@ void main(){
 	while(choix != 0){
 		switch (choix){
 			case 1:
-			  Saisie_nom(nom,prenom,chaine_tmp);
-			  init_nom = VRAI;
-			  break;
+				//Saisie du nom
+				puts("Entrez le nom du client.");
+				nom = Saisie_Chaine;
+
+				//Saisie du prénom
+				puts("Entrez le prenom du client.");
+				prenom = Saisie_Chaine;
+
+				init_nom = VRAI;
+				break;
 			case 2:
-			  Commande_Produit(tab_produit,tab_commande,nb_ligne_commande,)
-			  break;
+				Commande_Produit(tab_produit, tab_commande, &nb_ligne_commande, &nb_ligne_produit, &total);
+				break;
 			case 3:
-			  for (i = 0; i < nb_ligne_commande; i++){
-			  	Afficher_Ligne_Commande(tab_commande[i])
-			  }
-			  printf("Total : %.2f\n", total);
-			  break;
+				for (i = 0; i < nb_ligne_commande; i++){
+					Afficher_Ligne_Commande(tab_commande[i]);
+				}
+				printf("Total : %.2f\n", total);
+				break;
 			case 4:
-			  Creation_Facture(nom, prenom, tab_commande, nb_ligne_commande)
-			  break;
+				Creation_Facture(nom, prenom, total, tab_commande, nb_ligne_commande);
+				break;
 			case 0:
-			  puts("On quitte le programme.")
-			  break;
+				puts("On quitte le programme.");
+				break;
 			default:
-			  puts("Choix non disponible.")
-			  break;
+				puts("Choix non disponible.");
+				break;
 			}
 	choix = Saisie_Entier();
 	}
 
-	free(nom);
-	free(prenom);
-
+	if (init_nom) {
+		free(nom);
+		free(prenom);
+	}
 }
 
-//Saisie d'une chaine et 
-void Saisie_Chaine(char chaine[MAX_CHAINE]){
+// Tests :
+// - Saisie d'une chaine trop longue
+// - allocation mémoire pour strlen + 1
+// - saisie d'une chaine vide (\n)
+char *Saisie_Chaine() {
+	char chaine_tmp[MAX_CHAINE], *chaine;
 
-	fgets(chaine, MAX_CHAINE, stdin);
+	fgets(chaine_tmp, MAX_CHAINE, stdin);
+	while (chaine_tmp[0] == '\n'){
+		puts("Saisie invalide");
+		fgets(chaine_tmp, MAX_CHAINE, stdin);
+	}
+
 	//suppression du '\n'
-	chaine[strlen(chaine) - 1] = '\0';
-
-}
-
-void Saisie_nom(char **nom, char **prenom, char chaine[MAX_CHAINE]){
-
-	//Saisie du nom
-	puts("Entrez le nom du client.");
-	Saisie_Chaine(chaine);
-	*nom = (char *)malloc(sizeof(char)*strlen(chaine));
-	strcpy(*nom, chaine);
-	//vérification que la nom n'est pas vide
-	while (chaine[0] == '\0'){
-		puts("Entrez le nom du client. Ceci est obligatoire !");
-		Saisie_Chaine(chaine);
-		*nom = (char *)malloc(sizeof(char)*strlen(chaine));
-		strcpy(*nom, chaine);
+	if (chaine_tmp[strlen(chaine_tmp) - 1] == '\n') {
+		chaine_tmp[strlen(chaine_tmp) - 1] = '\0';
 	}
 
-	//saisie du prenom
-	puts("Entrez le prenom du client.");
-	Saisie_Chaine(chaine);
-	*prenom = (char *)malloc(sizeof(char)*strlen(chaine));
-	strcpy(*prenom, chaine);
-	//vérification que la prénom n'est pas vide
-	while (chaine[0] == '\0'){
-		puts("Entrez le prenom du client. Ceci est obligatoire !");
-		Saisie_Chaine(chaine);
-		*prenom = (char *)malloc(sizeof(char)*strlen(chaine));
-		strcpy(*prenom, chaine);
-	}
+	chaine = (char *)malloc(sizeof(char) * strlen(chaine_tmp) + 1);
+	strcpy(chaine, chaine_tmp);
+
+	return chaine;
 }
 
 // Propose et vérifie la saisie d'un entier par l'utilisateur
@@ -169,7 +165,7 @@ int Saisie_Entier(){
 void Afficher_Ligne_Commande(type_ligne_commande ligne_commande){
 
 
-	printf("Commande de %d %s %s, prix unitaire : %.2f CHF, prix total : %.2f CHF.\n", tab_commande.quantite, tab_commande.ptr_produit.nom, tab_commande.ptr_produit.ref, tab_commande.ptr_produit.prix_unitaire, tab_commande.total_ligne);
+	printf("Commande de %d %s %s, prix unitaire : %.2f CHF, prix total : %.2f CHF.\n", ligne_commande.quantite, ligne_commande.ptr_produit->marque, ligne_commande.ptr_produit->ref, ligne_commande.ptr_produit->prix_unitaire, ligne_commande.total_ligne);
 
 
 }
@@ -180,9 +176,9 @@ type_ligne_commande *Recherche_Ligne(int no, int nb_ligne_commande, type_ligne_c
 	int trouve = FAUX;
 	type_ligne_commande *pointeur;
 
-	for (int i = 0; i < nb || !trouve; i++) {
+	for (int i = 0; i < nb_ligne_commande || !trouve; i++) {
 		
-		if (nb_ligne_commande = tab_commande.ptr_produit.no){
+		if (no == tab_commande[i].ptr_produit->no){
 			trouve = VRAI;
 			pointeur = &tab_commande[i];
 		} else {
@@ -193,14 +189,14 @@ type_ligne_commande *Recherche_Ligne(int no, int nb_ligne_commande, type_ligne_c
 }
 
 //Recherche dans le tableau de produits si un n° de produit existe déjà. Retourne l'adresse du produit correspondant ou NULL si ce produit n'existe pas.
-type_produit *Recherche_Produit(int no, int *nb_ligne_produit, type_produit *tab_produit){
+type_produit *Recherche_Produit(int no, int *nb_ligne_produit, type_produit *tab_produit) {
 
 	int trouve = FAUX;
-	type_ligne_commande *pointeur;
+	type_produit *pointeur;
 
-	for (int i = 0; i < nb_ligne_produit || !trouve; i++) {
+	for (int i = 0; i < *nb_ligne_produit || !trouve; i++) {
 		
-		if (nb_ligne_commande = tab_produit.no){
+		if (no == tab_produit[i].no){
 			trouve = VRAI;
 			pointeur = &tab_produit[i];
 		} else {
@@ -212,12 +208,12 @@ type_produit *Recherche_Produit(int no, int *nb_ligne_produit, type_produit *tab
 }
 
 // Charge le fichier produit et l'enregistre dans un tableau de structures
-type_produit *Charge_Produits(char chemin_fichier[MAX_CHAINE], int *nb_produits) {
+type_produit *Charge_Produits(char chemin_fichier[], int *nb_produits) {
 	FILE *fichier_produit;
 	char ligne[MAX_CHAINE], marque[MAX_CHAINE], ref[MAX_CHAINE];
 	type_produit *tab_produit, tab_produit_tmp[MAX_PRODUITS];
 	int ret, i;
-	bool erreur;
+	int erreur;
 
 	erreur = FAUX;
 	fichier_produit = fopen(chemin_fichier, "r");
@@ -260,33 +256,33 @@ type_produit *Charge_Produits(char chemin_fichier[MAX_CHAINE], int *nb_produits)
 	}
 }
 
-void Creation_Ligne(type_ligne_commande *tab_commande, int nb_ligne_commande, type_produit nv_ptr_produit, int quantite, float *total){
+void Creation_Ligne(type_ligne_commande *tab_commande, int *nb_ligne_commande, type_produit *nv_ptr_produit, int quantite, float *total) {
 
 	(*nb_ligne_commande)++;
 	//Ajout des valeurs quantité et total dans le tableau commande
-	tab_commande[nb_ligne_commande].ptr_produit = nv_ptr_produit;
-	tab_commande[nb_ligne_commande].quantite = quantite;
-	tab_commande[nb_ligne_commande].total_ligne = quantite*tab_commande[nb_ligne_commande].ptr_produit.prix_unitaire;
+	tab_commande[*nb_ligne_commande].ptr_produit = nv_ptr_produit;
+	tab_commande[*nb_ligne_commande].quantite = quantite;
+	tab_commande[*nb_ligne_commande].total_ligne = quantite * (tab_commande[*nb_ligne_commande].ptr_produit->prix_unitaire);
 	//modification du total
-	total = total + tab_commande[nb_ligne_commande].total_ligne;
+	*total = *total + (tab_commande[*nb_ligne_commande].total_ligne);
 
 	//Affichage du resultat
-	Afficher_Ligne_Commande(tab_commande[nb_ligne_commande])
+	Afficher_Ligne_Commande(tab_commande[*nb_ligne_commande]);
 
 }
 
-void Modif_Ligne(type_ligne_commande *tab_commande,int nv_quantite, type_ligne_commande ptr_commande, float *total){
+void Modif_Ligne(type_ligne_commande *tab_commande, int nv_quantite, type_ligne_commande *ptr_commande, float *total) {
 
 	//modification des valeurs quantité et total dans le tableau commande
 	ptr_commande->quantite = nv_quantite;
-	ptr_commande->total_ligne = nv_quantite*ptr_commande->ptr_produit.prix_unitaire;
-	Afficher_Ligne_Commande(*ptr_commande)
+	ptr_commande->total_ligne = nv_quantite * (ptr_commande->ptr_produit->prix_unitaire);
+	Afficher_Ligne_Commande(*ptr_commande);
 	//modification du total
-	total = total + ptr_commande->total_ligne;
+	*total = *total + ptr_commande->total_ligne;
 
 }
 
-void Commande_Produit(type_produit *tab_produit, type_ligne_commande *tab_commande, int nb_ligne_commande, int *nb_ligne_produit){
+void Commande_Produit(type_produit *tab_produit, type_ligne_commande *tab_commande, int *nb_ligne_commande, int *nb_ligne_produit, float *total){
 
 	int no_produit, quantite;
 	type_produit *adresse_produit;
@@ -295,62 +291,69 @@ void Commande_Produit(type_produit *tab_produit, type_ligne_commande *tab_comman
 	//Demande du numéro de produit
 	printf("Entrez le numero de produit : ");
 	no_produit = Saisie_Entier();
-	while(no_produit < 0){
+	while (no_produit < 0){
 		printf("Un numero de produit ne peut pas être negatif. Entrez à nouveau : ");
 		no_produit = Saisie_Entier();
 	}
 
 	//Demande la quantité
-	Printf("Entrez la quantite désirée");
+	printf("Entrez la quantite désirée");
 	quantite = Saisie_Entier();
-	while(quantite < 0){
+	while (quantite < 0){
 		printf("La quantite ne peut pas etre negative. Entrez a nouveau : ");
 		quantite = Saisie_Entier();
 	}
 
 	//Recherche des adresses
-	adresse_produit = Recherche_Produit(no_produit, *nb_ligne_produit, tab_produit);
-	adresse_commande = Recherche_Ligne(no_produit, nb_ligne_commande, tab_commande);
+	adresse_produit = Recherche_Produit(no_produit, nb_ligne_produit, tab_produit);
+	adresse_commande = Recherche_Ligne(no_produit, *nb_ligne_commande, tab_commande);
 
 	//On recherche si le produit existe.
-	if  (adresse_produit == NULL){
-		puts("Commande impossible car le produit n'existe pas.")
-	} else {
+	if (adresse_produit == NULL){
+		puts("Commande impossible car le produit n'existe pas.");
+	}
+	else {
 		if (adresse_commande == NULL) {
 			Creation_Ligne(tab_commande, nb_ligne_commande, adresse_produit, quantite, total);
-		} else {
-			if (quantite = 0){
-				Supprimer_ligne(tab_commande, nb_ligne_commande, adresse_commande,total)
-			} else {
-				Modif_Ligne(tab_commande,quantite, adresse_commande,total);	
+		}
+		else {
+			if (quantite = 0) {
+				Supprimer_ligne(tab_commande, nb_ligne_commande, adresse_commande, total);
+			}
+			else {
+				Modif_Ligne(tab_commande, quantite, adresse_commande, total);
 			}
 		}
 	}
 }
 
-void Supprimer_ligne(type_ligne_commande *tab_commande, int nb_ligne_commande, type_ligne_commande adresse_commande, float *total){
+
+void Supprimer_ligne(type_ligne_commande *tab_commande, int *nb_ligne_commande, type_ligne_commande *adresse_commande, float *total) {
 
 	type_ligne_commande *i;
 
 	//modification du total
-	total = total - adresse_commande->total_ligne
+	*total = *total - (adresse_commande->total_ligne);
 
-	puts("Supression de la commande.")
-	for ( i = adresse_commande; i < &tab_commande[nb_ligne_commande - 1]; i++) {
-		*adresse_commande = *adresse_commande + 1;
+	puts("Supression de la commande.");
+	for ( i = adresse_commande; i < &tab_commande[*nb_ligne_commande - 1]; i++) {
+		adresse_commande++;
 	}
 
 	(*nb_ligne_commande)--;
 
 }
 
-bool Creation_Facture(char chemin_fichier[MAX_CHAINE], char *nom, char *prenom, float total, type_ligne_commande *tab_commande, int nb_ligne_commande) {
+int Creation_Facture(char *nom, char *prenom, float total, type_ligne_commande *tab_commande, int nb_ligne_commande) {
 	FILE *fichier_facture;
+	char nom_complet[MAX_CHAINE];
 	int i;
-	bool erreur;
+	int erreur;
 
 	erreur = FAUX;
-	fichier_facture = fopen(chemin_fichier, "w");
+	strcpy(nom_complet, nom);
+	strcat(nom_complet, prenom);
+	fichier_facture = fopen(strcat(nom_complet, ".html"), "w");
 
 	if (fichier_facture == NULL) {
 		puts("Impossible de créer le fichier");
