@@ -180,30 +180,27 @@ int Saisie_Entier(){
 	return valeur;
 }
 
-void Afficher_Ligne_Commande(type_ligne_commande ligne_commande){
-
-
+void Afficher_Ligne_Commande(type_ligne_commande ligne_commande) {
 	printf("Commande de %d %s %s, prix unitaire : %.2f CHF, prix total : %.2f CHF.\n", ligne_commande.quantite, ligne_commande.ptr_produit->marque, ligne_commande.ptr_produit->ref, ligne_commande.ptr_produit->prix_unitaire, ligne_commande.total_ligne);
-
-
 }
 
 //Recherche dans le tableau de commande si un n° de produit existe déjà
-type_ligne_commande *Recherche_Ligne(int no, int nb_ligne_commande, type_ligne_commande *tab_commande){
+// Tests :
+// - n'importe quelle valeur de no
+// - nb_ligne_commande <= 0
+// - tab_commande NULL
+type_ligne_commande *Recherche_Ligne(int no, int nb_ligne_commande, type_ligne_commande *tab_commande) {
 
-	int trouve = FAUX;
-	type_ligne_commande *pointeur;
+	type_ligne_commande *resultat;
 
-	for (int i = 0; i < nb_ligne_commande || !trouve; i++) {
-		
-		if (no == tab_commande[i].ptr_produit->no){
-			trouve = VRAI;
-			pointeur = &tab_commande[i];
-		} else {
-			pointeur = NULL;
+	resultat = NULL;
+
+	for (int i = 0; i < nb_ligne_commande && resultat == NULL && tab_commande != NULL; i++) {
+		if (no == tab_commande[i].ptr_produit->no) {
+			resultat = &tab_commande[i];
 		}
 	}
-	return pointeur;
+	return resultat;
 }
 
 //Recherche dans le tableau de produits si un n° de produit existe déjà. Retourne l'adresse du produit correspondant ou NULL si ce produit n'existe pas.
