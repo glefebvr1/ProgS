@@ -41,7 +41,7 @@ type_produit *Charge_Produits(char chemin_fichier[], int *nb_produits);
 //Recherche dans le tableau de produits si un n° de produit existe déjà. Retourne l'adresse du produit correspondant ou NULL si ce produit n'existe pas.
 type_produit *Recherche_Produit(int no, int nb_ligne_produit, type_produit *tab_produit);
 
-void Creation_Ligne(type_ligne_commande *tab_commande, int *nb_ligne_commande, type_produit *nv_ptr_produit, int quantite, float *total);
+void Ajout_Ligne(type_ligne_commande **derniere_commande, type_produit *nv_ptr_produit, int quantite, float *total);
 
 void Modif_Ligne(type_ligne_commande *tab_commande, int nv_quantite, type_ligne_commande *ptr_commande, float *total);
 
@@ -242,6 +242,7 @@ type_produit *Recherche_Produit(int no, type_produit *tab_produit) {
 // - erreur de fermeture du fichier
 // - longueur de ligne trop grande dans fichier
 // - gestion des doublons
+- fichier vide
 type_produit *Charge_Produits(char chemin_fichier[], int *nb_produits) {
 	FILE *fichier_produit;
 	char ligne[MAX_CHAINE], marque[MAX_CHAINE], ref[MAX_CHAINE];
@@ -320,18 +321,27 @@ type_produit *Charge_Produits(char chemin_fichier[], int *nb_produits) {
 	}
 }
 
-void Creation_Ligne(type_ligne_commande *tab_commande, int *nb_ligne_commande, type_produit *nv_ptr_produit, int quantite, float *total) {
+// Tests
+// - quantité <= 0
+// - 
+void Ajout_Ligne(type_ligne_commande **derniere_commande, type_produit *nv_ptr_produit, int quantite, float *total) {
 
-	(*nb_ligne_commande)++;
-	//Ajout des valeurs quantité et total dans le tableau commande
-	tab_commande[*nb_ligne_commande].ptr_produit = nv_ptr_produit;
-	tab_commande[*nb_ligne_commande].quantite = quantite;
-	tab_commande[*nb_ligne_commande].total_ligne = quantite * (tab_commande[*nb_ligne_commande].ptr_produit->prix_unitaire);
-	//modification du total
-	*total = *total + (tab_commande[*nb_ligne_commande].total_ligne);
+	if (quantite > 0) {
+		//Ajout des valeurs quantité et total dans le tableau commande
+		(*derniere_commande)++;
+		(*derniere_commande)->ptr_produit = nv_ptr_produit;
+		(*derniere_commande)->quantite = quantite;
+		(*derniere_commande)->total_ligne = quantite * nv_ptr_produit->prix_unitaire;
+		*total = *total + (*derniere_commande)->total_ligne;
 
-	//Affichage du resultat
-	Afficher_Ligne_Commande(tab_commande[*nb_ligne_commande]);
+		((*derniere_commande) + 1)->ptr_produit = NULL;
+
+		//Affichage du resultat
+		Afficher_Ligne_Commande(**derniere_commande);
+	}
+	else {
+		puts("La quantite saisie ne peut etre <= 0");
+	}
 
 }
 
