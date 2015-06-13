@@ -84,11 +84,11 @@ void main() {
 			case 1:
 				//Saisie du nom
 				puts("Entrez le nom du client.");
-				nom = Saisie_Chaine;
+				nom = Saisie_Chaine();
 
 				//Saisie du prénom
 				puts("Entrez le prenom du client.");
-				prenom = Saisie_Chaine;
+				prenom = Saisie_Chaine();
 
 				init_nom = VRAI;
 				break;
