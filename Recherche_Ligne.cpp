@@ -28,19 +28,24 @@ typedef struct {
 //Recherche dans le tableau de commande si un n° de produit existe déjà
 // Tests :
 // - n'importe quelle valeur de no
-// - nb_ligne_commande <= 0
 // - tab_commande NULL
-type_ligne_commande *Recherche_Ligne(int no, int nb_ligne_commande, type_ligne_commande *tab_commande) {
-
-	type_ligne_commande *resultat;
+// - dépassement de capacité
+type_ligne_commande *Recherche_Ligne(int no, type_ligne_commande *tab_commande) {
+	type_ligne_commande *resultat, *element_courant;
 
 	resultat = NULL;
 
-	for (int i = 0; i < nb_ligne_commande && resultat == NULL && tab_commande != NULL; i++) {
-		if (no == tab_commande[i].ptr_produit->no) {
-			resultat = &tab_commande[i];
+	if (tab_commande != NULL) {
+		element_courant = tab_commande;
+
+		while (element_courant->ptr_produit != NULL && resultat == NULL) {
+			if (no == element_courant->ptr_produit->no) {
+				resultat = element_courant;
+			}
+			element_courant++;
 		}
 	}
+
 	return resultat;
 }
 
@@ -63,13 +68,13 @@ void main() {
 
 	nb_ligne = 3;
 
-	tab_commande = (type_ligne_commande *)malloc(nb_ligne * sizeof(type_ligne_commande));
-
+	tab_commande = (type_ligne_commande *)malloc((nb_ligne) * sizeof(type_ligne_commande));
+	tab_commande[nb_ligne].ptr_produit = NULL;
 	tab_commande[0] = ligne1;
 	tab_commande[1] = ligne2;
 	tab_commande[2] = ligne3;
 
-	resultat = Recherche_Ligne(400, nb_ligne, tab_commande);
+	resultat = Recherche_Ligne(400, tab_commande);
 
 	if (resultat == NULL) {
 		puts("n'existe pas");

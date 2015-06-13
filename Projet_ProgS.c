@@ -33,13 +33,13 @@ int Saisie_Entier();
 void Afficher_Ligne_Commande(type_ligne_commande ligne_commande);
 
 //Recherche dans le tableau de commande si un n° de produit existe déjà
-type_ligne_commande *Recherche_Ligne(int no, int nb_ligne_commande, type_ligne_commande *tab_commande);
+type_ligne_commande *Recherche_Ligne(int no, type_ligne_commande *tab_commande);
 
 // Charge le fichier produit et l'enregistre dans un tableau de structures
 type_produit *Charge_Produits(char chemin_fichier[], int *nb_produits);
 
 //Recherche dans le tableau de produits si un n° de produit existe déjà. Retourne l'adresse du produit correspondant ou NULL si ce produit n'existe pas.
-type_produit *Recherche_Produit(int no, int *nb_ligne_produit, type_produit *tab_produit);
+type_produit *Recherche_Produit(int no, int nb_ligne_produit, type_produit *tab_produit);
 
 void Creation_Ligne(type_ligne_commande *tab_commande, int *nb_ligne_commande, type_produit *nv_ptr_produit, int quantite, float *total);
 
@@ -187,39 +187,44 @@ void Afficher_Ligne_Commande(type_ligne_commande ligne_commande) {
 //Recherche dans le tableau de commande si un n° de produit existe déjà
 // Tests :
 // - n'importe quelle valeur de no
-// - nb_ligne_commande <= 0
 // - tab_commande NULL
-type_ligne_commande *Recherche_Ligne(int no, int nb_ligne_commande, type_ligne_commande *tab_commande) {
-
-	type_ligne_commande *resultat;
+// - dépassement de capacité
+type_ligne_commande *Recherche_Ligne(int no, type_ligne_commande *tab_commande) {
+	type_ligne_commande *resultat, *element_courant;
 
 	resultat = NULL;
 
-	for (int i = 0; i < nb_ligne_commande && resultat == NULL && tab_commande != NULL; i++) {
-		if (no == tab_commande[i].ptr_produit->no) {
-			resultat = &tab_commande[i];
+	if (tab_commande != NULL) {
+		element_courant = tab_commande;
+
+		while (element_courant->ptr_produit != NULL && resultat == NULL) {
+			if (no == element_courant->ptr_produit->no) {
+				resultat = element_courant;
+			}
+			element_courant++;
 		}
 	}
+
 	return resultat;
 }
 
 //Recherche dans le tableau de produits si un n° de produit existe déjà. Retourne l'adresse du produit correspondant ou NULL si ce produit n'existe pas.
-type_produit *Recherche_Produit(int no, int *nb_ligne_produit, type_produit *tab_produit) {
+// Tests :
+// - n'importe quelle valeur de no
+// - nb_ligne_produit <= 0
+// - tab_produit NULL
+type_produit *Recherche_Produit(int no, int nb_ligne_produit, type_produit *tab_produit) {
+	type_produit *resultat;
+	int i;
 
-	int trouve = FAUX;
-	type_produit *pointeur;
+	resultat = NULL;
 
-	for (int i = 0; i < *nb_ligne_produit || !trouve; i++) {
-		
-		if (no == tab_produit[i].no){
-			trouve = VRAI;
-			pointeur = &tab_produit[i];
-		} else {
-			pointeur = NULL;
+	for (int i = 0; i < nb_ligne_produit && resultat == NULL && tab_produit != NULL; i++) {
+		if (no == tab_produit[i].no) {
+			resultat = &tab_produit[i];
 		}
 	}
-
-	return pointeur;
+	return resultat;
 }
 
 // Charge le fichier produit et l'enregistre dans un tableau de structures
