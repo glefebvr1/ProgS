@@ -1,13 +1,21 @@
-﻿La génération a démarré 13.06.2015 14:46:35.
+﻿La génération a démarré 13.06.2015 17:23:05.
 Projet "E:\Bureau\Projet_ProgS\ProgS\Projet_ProgS.vcxproj" sur le nœud 2 (Build cible(s)).
 ClCompile:
-  C:\Program Files\Microsoft Visual Studio 12.0\VC\bin\CL.exe /c /ZI /nologo /W3 /WX- /Od /Oy- /D WIN32 /D _DEBUG /D _CONSOLE /D _LIB /D _UNICODE /D UNICODE /Gm /EHsc /RTC1 /MDd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Fo"Debug\\" /Fd"Debug\vc120.pdb" /Gd /TP /analyze- /errorReport:prompt Recherche_Produit.cpp
-  Recherche_Produit.cpp
+  C:\Program Files\Microsoft Visual Studio 12.0\VC\bin\CL.exe /c /ZI /nologo /W3 /WX- /Od /Oy- /D WIN32 /D _DEBUG /D _CONSOLE /D _LIB /D _UNICODE /D UNICODE /Gm /EHsc /RTC1 /MDd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Fo"Debug\\" /Fd"Debug\vc120.pdb" /Gd /TP /analyze- /errorReport:prompt Charge_Produits.cpp
+  Charge_Produits.cpp
+e:\bureau\projet_progs\progs\charge_produits.cpp(83): warning C4996: 'fopen': This function or variable may be unsafe. Consider using fopen_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+          c:\program files\microsoft visual studio 12.0\vc\include\stdio.h(211) : voir la déclaration de 'fopen'
+e:\bureau\projet_progs\progs\charge_produits.cpp(97): warning C4996: 'sscanf': This function or variable may be unsafe. Consider using sscanf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+          c:\program files\microsoft visual studio 12.0\vc\include\stdio.h(304) : voir la déclaration de 'sscanf'
+e:\bureau\projet_progs\progs\charge_produits.cpp(122): warning C4996: 'strcpy': This function or variable may be unsafe. Consider using strcpy_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+          c:\program files\microsoft visual studio 12.0\vc\include\string.h(112) : voir la déclaration de 'strcpy'
+e:\bureau\projet_progs\progs\charge_produits.cpp(123): warning C4996: 'strcpy': This function or variable may be unsafe. Consider using strcpy_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+          c:\program files\microsoft visual studio 12.0\vc\include\string.h(112) : voir la déclaration de 'strcpy'
 Link:
-  C:\Program Files\Microsoft Visual Studio 12.0\VC\bin\link.exe /ERRORREPORT:PROMPT /OUT:"E:\Bureau\Projet_ProgS\ProgS\Debug\Projet_ProgS.exe" /INCREMENTAL /NOLOGO kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib /MANIFEST /MANIFESTUAC:"level='asInvoker' uiAccess='false'" /manifest:embed /DEBUG /PDB:"E:\Bureau\Projet_ProgS\ProgS\Debug\Projet_ProgS.pdb" /SUBSYSTEM:CONSOLE /TLBID:1 /DYNAMICBASE /NXCOMPAT /IMPLIB:"E:\Bureau\Projet_ProgS\ProgS\Debug\Projet_ProgS.lib" /MACHINE:X86 Debug\Recherche_Produit.obj
+  C:\Program Files\Microsoft Visual Studio 12.0\VC\bin\link.exe /ERRORREPORT:PROMPT /OUT:"E:\Bureau\Projet_ProgS\ProgS\Debug\Projet_ProgS.exe" /INCREMENTAL /NOLOGO kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib /MANIFEST /MANIFESTUAC:"level='asInvoker' uiAccess='false'" /manifest:embed /DEBUG /PDB:"E:\Bureau\Projet_ProgS\ProgS\Debug\Projet_ProgS.pdb" /SUBSYSTEM:CONSOLE /TLBID:1 /DYNAMICBASE /NXCOMPAT /IMPLIB:"E:\Bureau\Projet_ProgS\ProgS\Debug\Projet_ProgS.lib" /MACHINE:X86 Debug\Charge_Produits.obj
   Projet_ProgS.vcxproj -> E:\Bureau\Projet_ProgS\ProgS\Debug\Projet_ProgS.exe
 Génération du projet "E:\Bureau\Projet_ProgS\ProgS\Projet_ProgS.vcxproj" terminée (Build cible(s)).
 
 La génération a réussi.
 
-Temps écoulé 00:00:01.91
+Temps écoulé 00:00:01.16
