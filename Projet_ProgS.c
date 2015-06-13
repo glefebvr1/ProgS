@@ -211,17 +211,21 @@ type_ligne_commande *Recherche_Ligne(int no, type_ligne_commande *tab_commande) 
 //Recherche dans le tableau de produits si un n° de produit existe déjà. Retourne l'adresse du produit correspondant ou NULL si ce produit n'existe pas.
 // Tests :
 // - n'importe quelle valeur de no
-// - nb_ligne_produit <= 0
 // - tab_produit NULL
-type_produit *Recherche_Produit(int no, int nb_ligne_produit, type_produit *tab_produit) {
-	type_produit *resultat;
-	int i;
+// - dépassement de capacité
+type_produit *Recherche_Produit(int no, type_produit *tab_produit) {
+	type_produit *resultat, *element_courant;
 
 	resultat = NULL;
 
-	for (int i = 0; i < nb_ligne_produit && resultat == NULL && tab_produit != NULL; i++) {
-		if (no == tab_produit[i].no) {
-			resultat = &tab_produit[i];
+	if (tab_produit != NULL) {
+		element_courant = tab_produit;
+
+		while (element_courant->no >= 0 && resultat == NULL) {
+			if (no == element_courant->no) {
+				resultat = element_courant;
+			}
+			element_courant++;
 		}
 	}
 	return resultat;
