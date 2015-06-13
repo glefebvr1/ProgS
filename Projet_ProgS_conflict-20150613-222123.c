@@ -7,7 +7,7 @@
 #define MAX_PRODUITS 255
 #define VRAI 1
 #define FAUX 0
-#define FPRODUIT "produit.txt"
+#define FPRODUIT produit.txt
 
 //structures
 
@@ -45,44 +45,43 @@ void Ajout_Ligne(type_ligne_commande **derniere_commande, type_produit *nv_ptr_p
 
 void Modif_Ligne(int nv_quantite, type_ligne_commande *ligne_commande, float *total);
 
-void Commande_Produit(type_produit *tab_produit, type_ligne_commande *tab_commande, type_ligne_commande **derniere_ligne, float *total);
+void Commande_Produit(type_produit *tab_produit, type_ligne_commande *tab_commande, int *nb_ligne_commande, int *nb_ligne_produit, float *total);
 
-void Supprimer_ligne(type_ligne_commande *tab_commande, type_ligne_commande *adresse_commande, type_ligne_commande **derniere_ligne, float *total);
+void Supprimer_ligne(type_ligne_commande *tab_commande, int *nb_ligne_commande, type_ligne_commande *adresse_commande, float *total);
 
-void Creation_Facture(char *nom, char *prenom, float total, type_ligne_commande *tab_commande);
+int Creation_Facture(char *nom, char *prenom, float total, type_ligne_commande *tab_commande, int nb_ligne_commande);
 
 void main() {
 
 	int choix;
 	int init_nom;
+	int i;
 	float total;
 	char *nom;
 	char *prenom;
-	type_ligne_commande *tab_commande, *ligne_commande, *derniere_ligne;
-	int nb_produits;
+	int nb_ligne_commande;
+	type_ligne_commande *tab_commande;
+	int nb_ligne_produit;
 	type_produit *tab_produit;
+	char chaine_tmp[MAX_CHAINE];
 
-	nb_produits = 0;
-	tab_produit = Charge_Produits(FPRODUIT, &nb_produits);
+	choix = 0;
+	init_nom = FAUX;
+	i = 0;
+	tab_commande = NULL;
+	tab_produit = NULL;
 
-	if (tab_produit != NULL) {
-		init_nom = FAUX;
-		total = 0;
-		tab_commande = (type_ligne_commande *)malloc(sizeof(type_ligne_commande) * nb_produits);
-		tab_commande->ptr_produit = NULL;
-		derniere_ligne = tab_commande;
+	//Option
+	puts("1. Saisir le nom et le prenom du client.");
+	puts("2. Commander un produit.");
+	puts("3. Afficher la liste des produits.");
+	puts("4. Generer la facture");
+	puts("");
+	puts("0. Quitter le programme.");
 
-		//Option
-		puts("1. Saisir le nom et le prenom du client.");
-		puts("2. Commander un produit.");
-		puts("3. Afficher la liste des produits commandes.");
-		puts("4. Generer la facture");
-		puts("");
-		puts("0. Quitter le programme.");
-
-		choix = Saisie_Entier();
-		while (choix != 0){
-			switch (choix){
+	choix = Saisie_Entier();
+	while(choix != 0){
+		switch (choix){
 			case 1:
 				//Saisie du nom
 				puts("Entrez le nom du client.");
@@ -95,38 +94,31 @@ void main() {
 				init_nom = VRAI;
 				break;
 			case 2:
-				Commande_Produit(tab_produit, tab_commande, &derniere_ligne, &total);
+				Commande_Produit(tab_produit, tab_commande, &nb_ligne_commande, &nb_ligne_produit, &total);
 				break;
 			case 3:
-				ligne_commande = tab_commande;
-				while (ligne_commande->ptr_produit != NULL) {
-					Afficher_Ligne_Commande(*ligne_commande);
-					ligne_commande++;
+				for (i = 0; i < nb_ligne_commande; i++){
+					Afficher_Ligne_Commande(tab_commande[i]);
 				}
 				printf("Total : %.2f\n", total);
 				break;
 			case 4:
-				if (init_nom) {
-					Creation_Facture(nom, prenom, total, tab_commande);
-				}
-				else {
-					puts("Vous ne pouvez pas generer de facture tant que");
-					puts("le nom et le prenom n'ont pas ete saisis");
-				}
+				Creation_Facture(nom, prenom, total, tab_commande, nb_ligne_commande);
+				break;
+			case 0:
+				puts("On quitte le programme.");
 				break;
 			default:
+				puts("Choix non disponible.");
 				break;
 			}
-			choix = Saisie_Entier();
-		}
-
-		if (init_nom) {
-			free(nom);
-			free(prenom);
-		}
+	choix = Saisie_Entier();
 	}
 
-	system("pause");
+	if (init_nom) {
+		free(nom);
+		free(prenom);
+	}
 }
 
 // Tests :
@@ -170,7 +162,6 @@ int Saisie_Entier(){
 	int ret, valeur;
 
 	// lit un entier de max MAX_INT caractères
-	printf("> ");
 	fgets(entier, MAX_INT, stdin);
 	ret = sscanf(entier, "%d", &valeur);
 
@@ -182,7 +173,6 @@ int Saisie_Entier(){
 		else {
 			puts("Saisie invalide");
 		}
-		printf("> ");
 		fgets(entier, MAX_INT, stdin);
 		ret = sscanf(entier, "%d", &valeur);
 	}
@@ -191,7 +181,7 @@ int Saisie_Entier(){
 }
 
 void Afficher_Ligne_Commande(type_ligne_commande ligne_commande) {
-	printf("Commande de %d %s %s, prix unitaire : %.2f CHF, total : %.2f CHF.\n", ligne_commande.quantite, ligne_commande.ptr_produit->marque, ligne_commande.ptr_produit->ref, ligne_commande.ptr_produit->prix_unitaire, ligne_commande.total_ligne);
+	printf("Commande de %d %s %s, prix unitaire : %.2f CHF, prix total : %.2f CHF.\n", ligne_commande.quantite, ligne_commande.ptr_produit->marque, ligne_commande.ptr_produit->ref, ligne_commande.ptr_produit->prix_unitaire, ligne_commande.total_ligne);
 }
 
 //Recherche dans le tableau de commande si un n° de produit existe déjà
@@ -333,23 +323,21 @@ type_produit *Charge_Produits(char chemin_fichier[], int *nb_produits) {
 
 // Tests
 // - quantité <= 0
-// - pas de ligne
-void Ajout_Ligne(type_ligne_commande **derniere_ligne, type_produit *nv_ptr_produit, int quantite, float *total) {
+// - 
+void Ajout_Ligne(type_ligne_commande **derniere_commande, type_produit *nv_ptr_produit, int quantite, float *total) {
 
 	if (quantite > 0) {
 		//Ajout des valeurs quantité et total dans le tableau commande
-		if ((*derniere_ligne)->ptr_produit != NULL) {
-			(*derniere_ligne)++;
-		}
-		(*derniere_ligne)->ptr_produit = nv_ptr_produit;
-		(*derniere_ligne)->quantite = quantite;
-		(*derniere_ligne)->total_ligne = quantite * nv_ptr_produit->prix_unitaire;
-		*total = *total + (*derniere_ligne)->total_ligne;
+		(*derniere_commande)++;
+		(*derniere_commande)->ptr_produit = nv_ptr_produit;
+		(*derniere_commande)->quantite = quantite;
+		(*derniere_commande)->total_ligne = quantite * nv_ptr_produit->prix_unitaire;
+		*total = *total + (*derniere_commande)->total_ligne;
 
-		((*derniere_ligne) + 1)->ptr_produit = NULL;
+		((*derniere_commande) + 1)->ptr_produit = NULL;
 
 		//Affichage du resultat
-		Afficher_Ligne_Commande(**derniere_ligne);
+		Afficher_Ligne_Commande(**derniere_commande);
 	}
 	else {
 		puts("La quantite saisie ne peut etre <= 0");
@@ -366,32 +354,30 @@ void Modif_Ligne(int nv_quantite, type_ligne_commande *ligne_commande, float *to
 		ligne_commande->total_ligne = ligne_commande->quantite * ligne_commande->ptr_produit->prix_unitaire;
 		Afficher_Ligne_Commande(*ligne_commande);
 		//modification du total
-		*total = *total + nv_quantite * ligne_commande->ptr_produit->prix_unitaire;
+		*total = *total + ligne_commande->total_ligne;
 	}
 	else {
 		puts("Il n'est pas possible de commander une quantite inferieure a 1");
 	}
 }
 
-// Tests
-// - ligne commande vide
-void Supprimer_ligne(type_ligne_commande *tab_commande, type_ligne_commande *adresse_commande, type_ligne_commande **derniere_ligne, float *total) {
+void Supprimer_ligne(type_ligne_commande *tab_commande, int *nb_ligne_commande, type_ligne_commande *adresse_commande, float *total) {
+
+	type_ligne_commande *i;
 
 	//modification du total
 	*total = *total - (adresse_commande->total_ligne);
 
-	while (adresse_commande < *derniere_ligne) {
-		*adresse_commande = *(adresse_commande + 1);
+	puts("Supression de la commande.");
+	for (i = adresse_commande; i < &tab_commande[*nb_ligne_commande - 1]; i++) {
 		adresse_commande++;
 	}
 
-	(*derniere_ligne)->ptr_produit = NULL;
-	if (*derniere_ligne != tab_commande) {
-		*derniere_ligne--;
-	}
+	(*nb_ligne_commande)--;
+
 }
 
-void Commande_Produit(type_produit *tab_produit, type_ligne_commande *tab_commande, type_ligne_commande **derniere_ligne, float *total) {
+void Commande_Produit(type_produit *tab_produit, type_ligne_commande *tab_commande, type_ligne_commande **derniere_commande, int *nb_ligne_produit, float *total){
 
 	int no_produit, quantite;
 	type_produit *adresse_produit;
@@ -405,59 +391,68 @@ void Commande_Produit(type_produit *tab_produit, type_ligne_commande *tab_comman
 		no_produit = Saisie_Entier();
 	}
 
+	//Demande la quantité
+	printf("Entrez la quantite désirée");
+	quantite = Saisie_Entier();
+
 	//On recherche si le produit existe.
 	adresse_produit = Recherche_Produit(no_produit, tab_produit);
 	if (adresse_produit == NULL) {
 		puts("Commande impossible car le produit n'existe pas.");
 	}
 	else {
-		//Demande la quantité
-		printf("Entrez la quantite desiree : ");
-		quantite = Saisie_Entier();
-
 		adresse_commande = Recherche_Ligne(no_produit, tab_commande);
 		if (adresse_commande == NULL) {
-			Ajout_Ligne(derniere_ligne, adresse_produit, quantite, total);
+			Ajout_Ligne(derniere_commande, adresse_produit, quantite, &total);
 		}
 		else {
-			if (quantite == 0) {
-				Supprimer_ligne(tab_commande, adresse_commande, derniere_ligne, total);
+			if (quantite = 0) {
+				Supprimer_ligne(adresse_commande, derniere_commande, total);
 			}
 			else {
-				Modif_Ligne(quantite, adresse_commande, total);
+				Modif_Ligne(quantite, adresse_commande, &total);
 			}
 		}
 	}
 }
 
-// Tests
-// - fichier existe, pas de droits
-// - pas possible d'enregistrer modif
-// - Facture vide
-void Creation_Facture(char *nom, char *prenom, float total, type_ligne_commande *tab_commande) {
+
+int Creation_Facture(char *nom, char *prenom, float total, type_ligne_commande *tab_commande, int nb_ligne_commande) {
 	FILE *fichier_facture;
 	char nom_complet[MAX_CHAINE];
+	int i;
+	int erreur;
 
+	erreur = FAUX;
 	strcpy(nom_complet, nom);
 	strcat(nom_complet, prenom);
 	fichier_facture = fopen(strcat(nom_complet, ".html"), "w");
 
 	if (fichier_facture == NULL) {
 		puts("Impossible de créer le fichier");
+		erreur = VRAI;
 	}
 	else {
 		fputs("<html>\n<head>\n<title>Facture</title>\n</head>\n<body>", fichier_facture);
 		fprintf(fichier_facture, "<h1>Facture de %s %s</h1>\n", nom, prenom);
 		fputs("<table border>\n<tr bgcolor=\"yellow\">", fichier_facture);
 		fputs("<td>No</td><td>Marque</td><td>Ref</td><td>Prix</td><td>Nb</td><td>Total</td></tr>", fichier_facture);
-		while (tab_commande->ptr_produit != NULL) {
-			fprintf(fichier_facture, "<tr><td>%d</td><td>%s</td><td>%s</td><td>%.2f</td><td>%d</td><td align=\"right\">%.2f</td></tr>", tab_commande->ptr_produit->no, tab_commande->ptr_produit->marque, tab_commande->ptr_produit->ref, tab_commande->ptr_produit->prix_unitaire, tab_commande->quantite, tab_commande->total_ligne);
+		for (i = 0; i < nb_ligne_commande; i++) {
+			fprintf(fichier_facture, "<tr><td>%d</td><td>%s</td><td>%s</td><td>%.2f</td><td>%d</td><td align=\"right\">%.2f</td></tr>", tab_commande[i].ptr_produit->no, tab_commande[i].ptr_produit->marque, tab_commande[i].ptr_produit->ref, tab_commande[i].ptr_produit->prix_unitaire, tab_commande[i].quantite, tab_commande[i].total_ligne);
 		}
 		fprintf(fichier_facture, "<tr><td>Total</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td align=\"right\">%.2f</td></tr>", total);
 		fputs("</table>\n</body>\n</html>", fichier_facture);
 
 		if (fclose(fichier_facture) == EOF) {
 			puts("Erreur de fermeture du fichier");
+			erreur = VRAI;
 		}
+	}
+
+	if (erreur) {
+		return FAUX;
+	}
+	else {
+		return VRAI;
 	}
 }
