@@ -128,7 +128,7 @@ void main() {
 			// Affichage de la commande
 			case 3:
 				if (tab_commande == NULL) {
-					puts("Aucune commande");
+					puts("Aucune commande.");
 				}
 				else {
 					// On affiche chaque ligne de la commande
@@ -137,7 +137,7 @@ void main() {
 						Afficher_Ligne_Commande(ligne_commande);
 						ligne_commande++;
 					}
-					printf("Total : %.2fCHF\n", total);
+					printf("Total : %.2fCHF.\n", total);
 				}
 				break;
 			// Génération de la facture HTML
@@ -234,10 +234,10 @@ int Saisie_Entier(){
 	while (ret != 1 || entier[strlen(entier) - 1] != '\n') {
 		if (entier[strlen(entier) - 1] != '\n') {
 			while (getchar() != '\n');
-			puts("Nombre trop grand");
+			puts("Nombre trop grand.");
 		}
 		else {
-			puts("Saisie invalide");
+			puts("Saisie invalide.");
 		}
 		printf("> ");
 		fgets(entier, MAX_INT + 2, stdin);
@@ -278,9 +278,6 @@ type_ligne_commande *Recherche_Ligne(int no, type_ligne_commande *tab_commande, 
 			element_courant++;
 		}
 	}
-	else {
-		puts("Erreur : tableau de commande mal defini");
-	}
 
 	return resultat;
 }
@@ -307,9 +304,7 @@ type_produit *Recherche_Produit(int no, type_produit *tab_produit, type_produit 
 			element_courant++;
 		}
 	}
-	else {
-		puts("Erreur : Tableau des produits mal defini");
-	}
+
 	return resultat;
 }
 
@@ -325,18 +320,18 @@ type_produit Verifie_Ligne_Produit(char ligne[], int no_ligne) {
 	erreur = FAUX;
 
 	if (ligne[strlen(ligne) - 1] != '\n' && strlen(ligne) >= MAX_LIGNE) {
-		printf("Nombre de caracteres trop grand sur la ligne %d\n", no_ligne + 1);
+		printf("Nombre de caracteres trop grand sur la ligne %d.\n", no_ligne + 1);
 		erreur = VRAI;
 	}
 	else {
 		ret = sscanf(ligne, "%d\t%s\t%s\t%f", &no, marque, ref, &prix);
 		if (ret != 4) {
-			printf("Le format de la ligne %d est incorrect\n", no_ligne + 1);
+			printf("Le format de la ligne %d est incorrect.\n", no_ligne + 1);
 			erreur = VRAI;
 		}
 		else {
 			if (no < 0) {
-				printf("La ligne %d est contient un no de produit invalide (< 0)\n", no_ligne + 1);
+				printf("La ligne %d est contient un no de produit invalide (< 0).\n", no_ligne + 1);
 				erreur = VRAI;
 			}
 			else {
@@ -386,7 +381,7 @@ type_produit *Charge_Produits(char chemin_fichier[], type_produit **dernier_prod
 	fichier_produit = fopen(chemin_fichier, "r");
 
 	if (fichier_produit == NULL) {
-		printf("Le fichier %s n'existe pas ou n'est pas accessible\n", chemin_fichier);
+		printf("Le fichier %s n'existe pas ou n'est pas accessible.\n", chemin_fichier);
 		erreur = VRAI;
 	}
 	else {
@@ -420,12 +415,12 @@ type_produit *Charge_Produits(char chemin_fichier[], type_produit **dernier_prod
 			ret = fgets(ligne, MAX_LIGNE + 2, fichier_produit);
 		}
 		if (fclose(fichier_produit) == EOF) {
-			printf("Erreur de fermeture du fichier %s\n", chemin_fichier);
+			printf("Erreur de fermeture du fichier %s.\n", chemin_fichier);
 			erreur = VRAI;
 		}
 
 		if (ret == NULL && no_ligne == 0) {
-			printf("Le fichier %s est vide\n", chemin_fichier);
+			printf("Le fichier %s est vide.\n", chemin_fichier);
 			erreur = VRAI;
 		}
 	}
@@ -455,7 +450,7 @@ type_produit *Charge_Produits(char chemin_fichier[], type_produit **dernier_prod
 void Ajout_Ligne(type_ligne_commande **tab_commande, type_ligne_commande **derniere_ligne, int nb_produits, type_produit *nv_ptr_produit, int quantite, float *total) {
 
 	if (nb_produits <= 0 || nv_ptr_produit == NULL) {
-		puts("Erreur d'adressage");
+		puts("Erreur d'adressage.");
 	}
 	else {
 		if (quantite > 0) {
@@ -477,7 +472,7 @@ void Ajout_Ligne(type_ligne_commande **tab_commande, type_ligne_commande **derni
 			Afficher_Ligne_Commande(*derniere_ligne);
 		}
 		else {
-			puts("La quantite saisie ne peut etre <= 0");
+			puts("La quantite saisie ne peut etre <= 0.");
 		}
 	}
 }
@@ -488,7 +483,7 @@ void Ajout_Ligne(type_ligne_commande **tab_commande, type_ligne_commande **derni
 void Modif_Ligne(int nv_quantite, type_ligne_commande *ligne_commande, float *total) {
 
 	if (ligne_commande == NULL) {
-		puts("Erreur : la ligne est indéfinie");
+		puts("Erreur : la ligne est indéfinie.");
 	}
 	else {
 		if (nv_quantite + ligne_commande->quantite > 0) {
@@ -501,7 +496,7 @@ void Modif_Ligne(int nv_quantite, type_ligne_commande *ligne_commande, float *to
 			Afficher_Ligne_Commande(ligne_commande);
 		}
 		else {
-			puts("Il n'est pas possible de commander une quantite inferieure a 1");
+			puts("Il n'est pas possible de commander une quantite inferieure a 1.");
 		}
 	}
 }
@@ -531,7 +526,7 @@ void Supprimer_ligne(type_ligne_commande **tab_commande, type_ligne_commande *ad
 		else {
 			(*derniere_ligne)--;
 		}
-		puts("La commande a ete supprimee");
+		puts("La commande a ete supprimee.");
 	}
 	else {
 		puts("Erreur d'adressage");
@@ -566,7 +561,7 @@ void Commande_Produit(type_produit *tab_produit, type_ligne_commande **tab_comma
 		// Si non, on ajoute une ligne
 		if (adresse_commande == NULL) {
 			if (dernier_produit == NULL || tab_produit == NULL) {
-				puts("Erreur d'adressage");
+				puts("Erreur d'adressage.");
 			}
 			else {
 				// On calcule le nb de produits en fonction des adresses du premier et du dernier produit
@@ -600,7 +595,7 @@ void Creation_Facture(char *nom, char *prenom, float total, type_ligne_commande 
 	char nom_complet[MAX_CHAINE];
 
 	if (tab_commande == NULL || derniere_ligne == NULL) {
-		puts("Erreur d'adressage");
+		puts("Erreur d'adressage.");
 	}
 	else {
 		// On nomme le fichier d'après le nom et prénom de la personne
@@ -609,7 +604,7 @@ void Creation_Facture(char *nom, char *prenom, float total, type_ligne_commande 
 		fichier_facture = fopen(strcat(nom_complet, ".html"), "w");
 
 		if (fichier_facture == NULL) {
-			puts("Impossible de creer le fichier");
+			puts("Impossible de creer le fichier, verifier le nom ou les droits.");
 		}
 		else {
 			fputs("<html>\n<head>\n<title>Facture</title>\n</head>\n<body>\n", fichier_facture);
@@ -625,8 +620,10 @@ void Creation_Facture(char *nom, char *prenom, float total, type_ligne_commande 
 			fprintf(fichier_facture, "<tr><td>Total</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td align=\"right\">%.2f</td></tr>\n", total);
 			fputs("</table>\n</body>\n</html>", fichier_facture);
 
+			printf("Fichier facture %s genere avec succes.\n", nom_complet);
+
 			if (fclose(fichier_facture) == EOF) {
-				puts("Erreur de fermeture du fichier");
+				puts("Erreur de fermeture du fichier.");
 			}
 		}
 	}
