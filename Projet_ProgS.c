@@ -84,8 +84,8 @@ void main() {
 		puts("0. Quitter le programme.");
 
 		choix = Saisie_Entier();
-		while (choix != 0){
-			switch (choix){
+		while (choix != 0) {
+			switch (choix) {
 			case 1:
 				//Saisie du nom
 				puts("Entrez le nom du client.");
@@ -99,7 +99,7 @@ void main() {
 				break;
 			case 2:
 				if (init_nom){
-					Commande_Produit(tab_produit, tab_commande, &derniere_ligne, &total);
+					Commande_Produit(tab_produit, &tab_commande, &derniere_ligne, dernier_produit, &total);
 				} else {
 					puts("Vous ne pouvez pas faire de commande tant que les nom et prenom n'ont pas ete entre.");
 				}
@@ -211,7 +211,7 @@ int Saisie_Entier(){
 // Affichage d'une ligne de commande uniquement si elle est définie
 void Afficher_Ligne_Commande(type_ligne_commande *ligne_commande) {
 	if (ligne_commande != NULL) {
-		printf("Commande de %d %s %-s,\tprix unitaire : %7.2fCHF, total : %7.2fCHF\n", ligne_commande.quantite, ligne_commande.ptr_produit->marque, ligne_commande.ptr_produit->ref, ligne_commande.ptr_produit->prix_unitaire, ligne_commande.total_ligne);
+		printf("Commande de %d %s %-s,\tprix unitaire : %7.2fCHF, total : %7.2fCHF\n", ligne_commande->quantite, ligne_commande->ptr_produit->marque, ligne_commande->ptr_produit->ref, ligne_commande->ptr_produit->prix_unitaire, ligne_commande->total_ligne);
 	}
 }
 
