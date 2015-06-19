@@ -91,10 +91,11 @@ void main() {
 		puts("1. Saisir le nom et le prenom du client.");
 		puts("2. Commander un produit.");
 		puts("3. Afficher la liste des produits commandes.");
-		puts("4. Generer la facture");
+		puts("4. Generer la facture.");
 		puts("");
 		puts("0. Quitter le programme.");
-
+		puts("");
+		puts("Choisissez une option.");
 		choix = Saisie_Entier();
 		while (choix != 0) {
 			switch (choix) {
@@ -128,7 +129,7 @@ void main() {
 						Afficher_Ligne_Commande(ligne_commande);
 						ligne_commande++;
 					}
-					printf("Total : %.2f\n", total);
+					printf("Total : %.2fCHF\n", total);
 				}
 				break;
 			// Génération de la facture HTML
@@ -138,12 +139,13 @@ void main() {
 				}
 				else {
 					puts("Vous ne pouvez pas generer de facture tant que");
-					puts("le nom et le prenom n'ont pas ete saisis");
+					puts("le nom et le prenom n'ont pas ete saisis.");
 				}
 				break;
 			default:
 				break;
 			}
+			puts("Choisissez une option.");
 			choix = Saisie_Entier();
 		}
 
@@ -180,15 +182,17 @@ char *Saisie_Chaine(){
 	char chaine_tmp[MAX_CHAINE_SAISIE + 2], *chaine;
 
 	// Tant que la chaîne saisie est incorrecte, on redemande la saisie
+	printf("> ");
 	fgets(chaine_tmp, MAX_CHAINE_SAISIE + 2, stdin);
 	while (chaine_tmp[0] == '\n' || chaine_tmp[strlen(chaine_tmp) - 1] != '\n') {
 		if (chaine_tmp[strlen(chaine_tmp) - 1] != '\n') {
 			while (getchar() != '\n');
-			puts("Nombre de caracteres trop grand");
+			puts("Nombre de caracteres trop grand.");
 		}
 		else {
-			puts("Saisie invalide");
+			puts("Saisie invalide.");
 		}
+		printf("> ");
 		fgets(chaine_tmp, MAX_CHAINE_SAISIE + 2, stdin);
 	}
 
@@ -238,7 +242,7 @@ int Saisie_Entier(){
 // Affichage d'une ligne de commande uniquement si elle est définie
 void Afficher_Ligne_Commande(type_ligne_commande *ligne_commande) {
 	if (ligne_commande != NULL) {
-		printf("Commande de %d %s %-s,\tprix unitaire : %7.2fCHF, total : %7.2fCHF\n", ligne_commande->quantite, ligne_commande->ptr_produit->marque, ligne_commande->ptr_produit->ref, ligne_commande->ptr_produit->prix_unitaire, ligne_commande->total_ligne);
+		printf("Commande de %d %s %-s\tprix unitaire : %7.2fCHF, total : %7.2fCHF\n", ligne_commande->quantite, ligne_commande->ptr_produit->marque, ligne_commande->ptr_produit->ref, ligne_commande->ptr_produit->prix_unitaire, ligne_commande->total_ligne);
 	}
 }
 
@@ -519,6 +523,7 @@ void Supprimer_ligne(type_ligne_commande **tab_commande, type_ligne_commande *ad
 		else {
 			(*derniere_ligne)--;
 		}
+		puts("La commande a ete supprimee");
 	}
 	else {
 		puts("Erreur d'adressage");
@@ -532,10 +537,10 @@ void Commande_Produit(type_produit *tab_produit, type_ligne_commande **tab_comma
 	type_produit *adresse_produit;
 	type_ligne_commande *adresse_commande;
 
-	printf("Entrez le numero de produit : ");
+	puts("Entrez le numero de produit.");
 	no_produit = Saisie_Entier();
 	while (no_produit < 0){
-		printf("Un numero de produit ne peut pas être negatif. Entrez à nouveau : ");
+		puts("Un numero de produit ne peut pas être negatif. Entrez à nouveau.");
 		no_produit = Saisie_Entier();
 	}
 
@@ -545,7 +550,7 @@ void Commande_Produit(type_produit *tab_produit, type_ligne_commande **tab_comma
 		puts("Commande impossible car le produit n'existe pas.");
 	}
 	else {
-		printf("Entrez la quantite desiree : ");
+		puts("Entrez la quantite desiree.");
 		quantite = Saisie_Entier();
 
 		// On recherche si une ligne de commande contient déjà ce produit
@@ -596,6 +601,16 @@ void Creation_Facture(char *nom, char *prenom, float total, type_ligne_commande 
 
 		if (fichier_facture == NULL) {
 			puts("Impossible de creer le fichier");
+	}
+	else {
+		fputs("<html>\n<head>\n<title>Facture</title>\n</head>\n<body>\n", fichier_facture);
+		fprintf(fichier_facture, "<h1>Facture de %s %s</h1>\n", nom, prenom);
+		fputs("<table border>\n<tr bgcolor=\"yellow\">", fichier_facture);
+		fputs("<td>No</td><td>Marque</td><td>Ref</td><td>Prix</td><td>Nb</td><td>Total</td></tr>\n", fichier_facture);
+		// On imprime chaque ligne de commande
+		while (tab_commande <= derniere_ligne) {
+			fprintf(fichier_facture, "<tr><td>%d</td><td>%s</td><td>%s</td><td>%.2f</td><td>%d</td><td align=\"right\">%.2f</td></tr>\n", tab_commande->ptr_produit->no, tab_commande->ptr_produit->marque, tab_commande->ptr_produit->ref, tab_commande->ptr_produit->prix_unitaire, tab_commande->quantite, tab_commande->total_ligne);
+			tab_commande++;
 		}
 		else {
 			fputs("<html>\n<head>\n<title>Facture</title>\n</head>\n<body>\n", fichier_facture);
