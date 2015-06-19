@@ -215,7 +215,7 @@ int Saisie_Entier(){
 // Affichage d'une ligne de commande uniquement si elle est définie
 void Afficher_Ligne_Commande(type_ligne_commande *ligne_commande) {
 	if (ligne_commande != NULL) {
-		printf("Commande de %d %s %-s,\tprix unitaire : %7.2fCHF, total : %7.2fCHF\n", ligne_commande->quantite, ligne_commande->ptr_produit->marque, ligne_commande->ptr_produit->ref, ligne_commande->ptr_produit->prix_unitaire, ligne_commande->total_ligne);
+		printf("Commande de %d %s %-s\tprix unitaire : %7.2fCHF, total : %7.2fCHF\n", ligne_commande->quantite, ligne_commande->ptr_produit->marque, ligne_commande->ptr_produit->ref, ligne_commande->ptr_produit->prix_unitaire, ligne_commande->total_ligne);
 	}
 }
 
@@ -476,6 +476,7 @@ void Supprimer_ligne(type_ligne_commande **tab_commande, type_ligne_commande *ad
 			(*derniere_ligne)--;
 		}
 	}
+	puts("La commande a ete supprimee");
 }
 
 // Gestion de l'ajout, modification ou suppression d'une ligne de commande
