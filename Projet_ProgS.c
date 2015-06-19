@@ -79,10 +79,11 @@ void main() {
 		puts("1. Saisir le nom et le prenom du client.");
 		puts("2. Commander un produit.");
 		puts("3. Afficher la liste des produits commandes.");
-		puts("4. Generer la facture");
+		puts("4. Generer la facture.");
 		puts("");
 		puts("0. Quitter le programme.");
-
+		puts("");
+		puts("Choisissez une option.");
 		choix = Saisie_Entier();
 		while (choix != 0) {
 			switch (choix) {
@@ -110,7 +111,7 @@ void main() {
 					Afficher_Ligne_Commande(ligne_commande);
 					ligne_commande++;
 				}
-				printf("Total : %.2f\n", total);
+				printf("Total : %.2fCHF\n", total);
 				break;
 			case 4:
 				if (init_nom) {
@@ -118,12 +119,13 @@ void main() {
 				}
 				else {
 					puts("Vous ne pouvez pas generer de facture tant que");
-					puts("le nom et le prenom n'ont pas ete saisis");
+					puts("le nom et le prenom n'ont pas ete saisis.");
 				}
 				break;
 			default:
 				break;
 			}
+			puts("Choisissez une option.");
 			choix = Saisie_Entier();
 		}
 
@@ -154,15 +156,17 @@ void main() {
 char *Saisie_Chaine(){
 	char chaine_tmp[MAX_CHAINE_SAISIE], *chaine;
 
+	printf("> ");
 	fgets(chaine_tmp, MAX_CHAINE_SAISIE, stdin);
 	while (chaine_tmp[0] == '\n' || chaine_tmp[strlen(chaine_tmp) - 1] != '\n') {
 		if (chaine_tmp[strlen(chaine_tmp) - 1] != '\n') {
 			while (getchar() != '\n');
-			puts("Nombre de caracteres trop grand");
+			puts("Nombre de caracteres trop grand.");
 		}
 		else {
-			puts("Saisie invalide");
+			puts("Saisie invalide.");
 		}
+		printf("> ");
 		fgets(chaine_tmp, MAX_CHAINE_SAISIE, stdin);
 	}
 
@@ -481,10 +485,10 @@ void Commande_Produit(type_produit *tab_produit, type_ligne_commande **tab_comma
 	type_produit *adresse_produit;
 	type_ligne_commande *adresse_commande;
 
-	printf("Entrez le numero de produit : ");
+	puts("Entrez le numero de produit.");
 	no_produit = Saisie_Entier();
 	while (no_produit < 0){
-		printf("Un numero de produit ne peut pas être negatif. Entrez à nouveau : ");
+		puts("Un numero de produit ne peut pas être negatif. Entrez à nouveau.");
 		no_produit = Saisie_Entier();
 	}
 
@@ -494,7 +498,7 @@ void Commande_Produit(type_produit *tab_produit, type_ligne_commande **tab_comma
 		puts("Commande impossible car le produit n'existe pas.");
 	}
 	else {
-		printf("Entrez la quantite desiree : ");
+		puts("Entrez la quantite desiree.");
 		quantite = Saisie_Entier();
 
 		// On recherche si une ligne de commande contient déjà ce produit
@@ -531,7 +535,7 @@ void Creation_Facture(char *nom, char *prenom, float total, type_ligne_commande 
 	fichier_facture = fopen(strcat(nom_complet, ".html"), "w");
 
 	if (fichier_facture == NULL) {
-		puts("Impossible de créer le fichier");
+		puts("Impossible de créer le fichier.");
 	}
 	else {
 		fputs("<html>\n<head>\n<title>Facture</title>\n</head>\n<body>\n", fichier_facture);
@@ -548,7 +552,7 @@ void Creation_Facture(char *nom, char *prenom, float total, type_ligne_commande 
 		fputs("</table>\n</body>\n</html>", fichier_facture);
 
 		if (fclose(fichier_facture) == EOF) {
-			puts("Erreur de fermeture du fichier");
+			puts("Erreur de fermeture du fichier.");
 		}
 	}
 }
