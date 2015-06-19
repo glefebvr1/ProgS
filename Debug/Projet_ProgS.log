@@ -1,27 +1,27 @@
-﻿La génération a démarré 19.06.2015 14:38:05.
+﻿La génération a démarré 19.06.2015 16:50:09.
 Projet "E:\Bureau\Projet_ProgS\ProgS\Projet_ProgS.vcxproj" sur le nœud 2 (Build cible(s)).
 ClCompile:
   C:\Program Files\Microsoft Visual Studio 12.0\VC\bin\CL.exe /c /ZI /nologo /W3 /WX- /Od /Oy- /D WIN32 /D _DEBUG /D _CONSOLE /D _LIB /D _UNICODE /D UNICODE /Gm /EHsc /RTC1 /MDd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Fo"Debug\\" /Fd"Debug\vc120.pdb" /Gd /TC /analyze- /errorReport:prompt Projet_ProgS.c
   Projet_ProgS.c
-e:\bureau\projet_progs\progs\projet_progs.c(175): warning C4996: 'strcpy': This function or variable may be unsafe. Consider using strcpy_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+e:\bureau\projet_progs\progs\projet_progs.c(198): warning C4996: 'strcpy': This function or variable may be unsafe. Consider using strcpy_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
           c:\program files\microsoft visual studio 12.0\vc\include\string.h(112) : voir la déclaration de 'strcpy'
-e:\bureau\projet_progs\progs\projet_progs.c(193): warning C4996: 'sscanf': This function or variable may be unsafe. Consider using sscanf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+e:\bureau\projet_progs\progs\projet_progs.c(215): warning C4996: 'sscanf': This function or variable may be unsafe. Consider using sscanf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
           c:\program files\microsoft visual studio 12.0\vc\include\stdio.h(304) : voir la déclaration de 'sscanf'
-e:\bureau\projet_progs\progs\projet_progs.c(205): warning C4996: 'sscanf': This function or variable may be unsafe. Consider using sscanf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+e:\bureau\projet_progs\progs\projet_progs.c(228): warning C4996: 'sscanf': This function or variable may be unsafe. Consider using sscanf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
           c:\program files\microsoft visual studio 12.0\vc\include\stdio.h(304) : voir la déclaration de 'sscanf'
-e:\bureau\projet_progs\progs\projet_progs.c(287): warning C4996: 'sscanf': This function or variable may be unsafe. Consider using sscanf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+e:\bureau\projet_progs\progs\projet_progs.c(310): warning C4996: 'sscanf': This function or variable may be unsafe. Consider using sscanf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
           c:\program files\microsoft visual studio 12.0\vc\include\stdio.h(304) : voir la déclaration de 'sscanf'
-e:\bureau\projet_progs\progs\projet_progs.c(302): warning C4996: 'strcpy': This function or variable may be unsafe. Consider using strcpy_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+e:\bureau\projet_progs\progs\projet_progs.c(325): warning C4996: 'strcpy': This function or variable may be unsafe. Consider using strcpy_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
           c:\program files\microsoft visual studio 12.0\vc\include\string.h(112) : voir la déclaration de 'strcpy'
-e:\bureau\projet_progs\progs\projet_progs.c(303): warning C4996: 'strcpy': This function or variable may be unsafe. Consider using strcpy_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+e:\bureau\projet_progs\progs\projet_progs.c(326): warning C4996: 'strcpy': This function or variable may be unsafe. Consider using strcpy_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
           c:\program files\microsoft visual studio 12.0\vc\include\string.h(112) : voir la déclaration de 'strcpy'
-e:\bureau\projet_progs\progs\projet_progs.c(340): warning C4996: 'fopen': This function or variable may be unsafe. Consider using fopen_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+e:\bureau\projet_progs\progs\projet_progs.c(364): warning C4996: 'fopen': This function or variable may be unsafe. Consider using fopen_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
           c:\program files\microsoft visual studio 12.0\vc\include\stdio.h(211) : voir la déclaration de 'fopen'
-e:\bureau\projet_progs\progs\projet_progs.c(529): warning C4996: 'strcpy': This function or variable may be unsafe. Consider using strcpy_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+e:\bureau\projet_progs\progs\projet_progs.c(561): warning C4996: 'strcpy': This function or variable may be unsafe. Consider using strcpy_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
           c:\program files\microsoft visual studio 12.0\vc\include\string.h(112) : voir la déclaration de 'strcpy'
-e:\bureau\projet_progs\progs\projet_progs.c(530): warning C4996: 'strcat': This function or variable may be unsafe. Consider using strcat_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+e:\bureau\projet_progs\progs\projet_progs.c(562): warning C4996: 'strcat': This function or variable may be unsafe. Consider using strcat_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
           c:\program files\microsoft visual studio 12.0\vc\include\string.h(118) : voir la déclaration de 'strcat'
-e:\bureau\projet_progs\progs\projet_progs.c(531): warning C4996: 'fopen': This function or variable may be unsafe. Consider using fopen_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+e:\bureau\projet_progs\progs\projet_progs.c(563): warning C4996: 'fopen': This function or variable may be unsafe. Consider using fopen_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
           c:\program files\microsoft visual studio 12.0\vc\include\stdio.h(211) : voir la déclaration de 'fopen'
 Link:
   C:\Program Files\Microsoft Visual Studio 12.0\VC\bin\link.exe /ERRORREPORT:PROMPT /OUT:"E:\Bureau\Projet_ProgS\ProgS\Debug\Projet_ProgS.exe" /INCREMENTAL /NOLOGO kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib /MANIFEST /MANIFESTUAC:"level='asInvoker' uiAccess='false'" /manifest:embed /DEBUG /PDB:"E:\Bureau\Projet_ProgS\ProgS\Debug\Projet_ProgS.pdb" /SUBSYSTEM:CONSOLE /TLBID:1 /DYNAMICBASE /NXCOMPAT /IMPLIB:"E:\Bureau\Projet_ProgS\ProgS\Debug\Projet_ProgS.lib" /MACHINE:X86 Debug\Projet_ProgS.obj
@@ -30,4 +30,4 @@ Génération du projet "E:\Bureau\Projet_ProgS\ProgS\Projet_ProgS.vcxproj" termi
 
 La génération a réussi.
 
-Temps écoulé 00:00:01.47
+Temps écoulé 00:00:01.06
