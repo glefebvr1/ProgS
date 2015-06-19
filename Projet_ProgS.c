@@ -23,7 +23,7 @@ Structure du programme :
 - Pour chaque produit commandé, une structure "type_ligne_commande" est ajoutée au tableau "tab_commande"
 - Ensuite l'utilisateur a le loisir de commander d'autres produits, de modifier les quantités commandées
 	et de supprimer un produit commandé
-- L'utilisateur peut aussi, a tout moment, afficher la facture de la commande ou la générer ua format HTML
+- L'utilisateur peut aussi, a tout moment, afficher la facture de la commande ou la générer au format HTML
 
 Choix techniques :
 - Utilisation d'un pointeur vers une structure "type_produit" depuis la structure "type_ligne_commande" afin
@@ -54,7 +54,7 @@ Choix techniques :
 // Fichier contenant la liste des produits
 #define FPRODUIT "produit.txt"
 
-//Booléen
+// Booléen
 #define VRAI 1
 #define FAUX 0
 
@@ -77,45 +77,45 @@ typedef struct {
 } type_ligne_commande;
 
 
-//Saisie d'une chaine et vérification de cette chaine 
+// Saisie d'une chaine et vérification de cette chaine 
 char *Saisie_Chaine();
 
-//saisie et vérification d'un entier
+// saisie et vérification d'un entier
 int Saisie_Entier();
 
-//Affiche une ligne du tableau commande
+// Affiche une ligne du tableau commande
 void Afficher_Ligne_Commande(type_ligne_commande *ligne_commande);
 
-//Recherche dans le tableau de commande si un n° de produit existe déjà
+// Recherche dans le tableau de commande si un n° de produit existe déjà
 type_ligne_commande *Recherche_Ligne(int no, type_ligne_commande *tab_commande, type_ligne_commande *derniere_ligne);
 
-//verifie que les lignes du fichier produit ont un format correct
+// verifie que les lignes du fichier produit ont un format correct
 type_produit Verifie_Ligne_Produit(char ligne[], int no_ligne);
 
 // Charge le fichier produit et l'enregistre dans un tableau de structures
 type_produit *Charge_Produits(char chemin_fichier[], type_produit **dernier_produit);
 
-//Recherche dans le tableau de produits si un n° de produit existe déjà. Retourne l'adresse du produit correspondant ou NULL si ce produit n'existe pas.
+// Recherche dans le tableau de produits si un n° de produit existe déjà. Retourne l'adresse du produit correspondant ou NULL si ce produit n'existe pas.
 type_produit *Recherche_Produit(int no, type_produit *tab_produit, type_produit *dernier_produit);
 
-//Ajoute un ligne au tableau de commande
+// Ajoute un ligne au tableau de commande
 void Ajout_Ligne(type_ligne_commande **tab_commande, type_ligne_commande **derniere_ligne, int nb_produits, type_produit *nv_ptr_produit, int quantite, float *total);
 
-//Modifie la quantité commandé dans le tableau de commande
+// Modifie la quantité commandé dans le tableau de commande
 void Modif_Ligne(int nv_quantite, type_ligne_commande *ligne_commande, float *total);
 
-//Gère l'ajout, la modification et la suppression de ligne dans le tableau de commande
+// Gère l'ajout, la modification et la suppression de ligne dans le tableau de commande
 void Commande_Produit(type_produit *tab_produit, type_ligne_commande **tab_commande, type_ligne_commande **derniere_ligne, type_produit *dernier_produit, float *total);
 
-//supprime un ligne dans le tableau de commande
+// supprime un ligne dans le tableau de commande
 void Supprimer_ligne(type_ligne_commande **tab_commande, type_ligne_commande *adresse_commande, type_ligne_commande **derniere_ligne, float *total);
 
-//Génère le fichier HTML de facture au nom du client
+// Génère le fichier HTML de facture au nom du client
 void Creation_Facture(char *nom, char *prenom, float total, type_ligne_commande *tab_commande, type_ligne_commande *derniere_ligne);
 
 void main() {
 
-	//Déclaration des variables
+	// Déclaration des variables
 	int choix;
 	int init_nom;
 	float total;
@@ -124,7 +124,7 @@ void main() {
 	type_ligne_commande *tab_commande, *ligne_commande, *derniere_ligne;
 	type_produit *tab_produit, *dernier_produit, *produit_courant;
 
-	//initialisation des variables
+	// initialisation des variables
 	init_nom = FAUX;
 	total = 0;
 	tab_commande = NULL;
@@ -137,7 +137,7 @@ void main() {
 	// On quitte si on arrive pas à charger les produits
 	if (tab_produit != NULL) {
 
-		//Option
+		// Option
 		puts("1. Saisir le nom et le prenom du client.");
 		puts("2. Commander un produit.");
 		puts("3. Afficher la liste des produits commandes.");
@@ -189,13 +189,13 @@ void main() {
 						Creation_Facture(nom, prenom, total, tab_commande, derniere_ligne);
 					}
 					else {
-						//Erreur si aucune commande ajoutée
+						// Erreur si aucune commande ajoutée
 						puts("Vous ne pouvez pas generer de facture tant que");
 						puts("vous n'avez pas passe de commande.");
 					}
 				}
 				else {
-					//Erreur si le nom n'a pas été initialisé
+					// Erreur si le nom n'a pas été initialisé
 					puts("Vous ne pouvez pas generer de facture tant que");
 					puts("le nom et le prenom n'ont pas ete saisis.");
 				}
@@ -250,7 +250,7 @@ char *Saisie_Chaine(){
 		fgets(chaine_tmp, MAX_CHAINE_SAISIE + 2, stdin);
 	}
 
-	//suppression du '\n'
+	// suppression du '\n'
 	if (chaine_tmp[strlen(chaine_tmp) - 1] == '\n') {
 		chaine_tmp[strlen(chaine_tmp) - 1] = '\0';
 	}
@@ -326,7 +326,7 @@ type_ligne_commande *Recherche_Ligne(int no, type_ligne_commande *tab_commande, 
 	return resultat;
 }
 
-//Recherche dans le tableau de produits si un n° de produit existe déjà.
+// Recherche dans le tableau de produits si un n° de produit existe déjà.
 // Retourne un pointeur vers le produit correspondant ou NULL si ce produit n'existe pas.
 // Paramètre :
 // - no : Numéro de produit que l'on recherche
@@ -353,8 +353,8 @@ type_produit *Recherche_Produit(int no, type_produit *tab_produit, type_produit 
 }
 
 // Vérifie si une ligne du fichier produit ne contient pas d'erreur
-//	Retourne le produit extrait de la ligne  si aucune erreur,
-//	sinon retourne un produit "vide" dont le no vaut -1
+// 	Retourne le produit extrait de la ligne  si aucune erreur,
+// 	sinon retourne un produit "vide" dont le no vaut -1
 // Paramètre :
 // - ligne : contient une ligne du tableau produit que l'on va vérifier
 // - no_ligne : numéro de la ligne que l'on vérifie dans le tableau de produit
@@ -401,9 +401,9 @@ type_produit Verifie_Ligne_Produit(char ligne[], int no_ligne) {
 
 // Charge le fichier produit et l'enregistre dans un tableau de structures.
 // Renvoie un pointeur vers le tableau de structures si le chargement à réussi,
-//	sinon renvoie NULL
+// 	sinon renvoie NULL
 // Toute erreur lors du chargement du fichier est considérée comme fatale et
-//	entraîne l'annulation du chargement
+// 	entraîne l'annulation du chargement
 // Paramètre :
 // - chemin_fichier : chemin du fichier produit.txt que l'on consulte
 // - dernier_produit : adresse de la ligne du dernier produit du tableau de produit
@@ -510,7 +510,7 @@ void Ajout_Ligne(type_ligne_commande **tab_commande, type_ligne_commande **derni
 			(*derniere_ligne)->total_ligne = quantite * nv_ptr_produit->prix_unitaire;
 			*total = *total + (*derniere_ligne)->total_ligne;
 
-			//Affichage de la nouvelle ligne de commande
+			// Affichage de la nouvelle ligne de commande
 			Afficher_Ligne_Commande(*derniere_ligne);
 		}
 		else {
@@ -536,7 +536,7 @@ void Modif_Ligne(int nv_quantite, type_ligne_commande *ligne_commande, float *to
 
 			*total = *total + nv_quantite * ligne_commande->ptr_produit->prix_unitaire;
 
-			//Affichage de la ligne de commande modifiée
+			// Affichage de la ligne de commande modifiée
 			Afficher_Ligne_Commande(ligne_commande);
 		}
 		else {
@@ -546,8 +546,8 @@ void Modif_Ligne(int nv_quantite, type_ligne_commande *ligne_commande, float *to
 }
 
 // Supprime une ligne de commande du tableau des commandes, recalcule le total de la commande,
-//	décale les éléments du tableau situés à droite de l'élément supprimé d'un cran à gauche et
-//	décrémente le pointeur de dernière ligne de commande
+// 	décale les éléments du tableau situés à droite de l'élément supprimé d'un cran à gauche et
+// 	décrémente le pointeur de dernière ligne de commande
 // Paramètre :
 // - tab_commande : tableau qui contient les commandes. l'une d'elle sera supprimée.
 // - adresse_commande : adresse correspondant à la ligne qui sera supprimée
