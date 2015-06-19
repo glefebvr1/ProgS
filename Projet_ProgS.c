@@ -174,12 +174,13 @@ void main() {
 				}
 				else {
 					// On affiche chaque ligne de la commande
+					puts("\nListe des produits commandes : ");
 					ligne_commande = tab_commande;
 					while (ligne_commande <= derniere_ligne) {
 						Afficher_Ligne_Commande(ligne_commande);
 						ligne_commande++;
 					}
-					printf("Total : %.2fCHF.\n", total);
+					printf("\nTotal : %.2fCHF.\n\n", total);
 				}
 				break;
 			// Génération de la facture HTML
@@ -225,8 +226,6 @@ void main() {
 		}
 		free(tab_produit);
 	}
-
-	system("pause");
 }
 
 // Vérifie qu'une chaîne saisie soit correcte : pas de chaine vide ni de
@@ -294,7 +293,7 @@ int Saisie_Entier(){
 // - ligne_commande : élément du tableau tab_commande
 void Afficher_Ligne_Commande(type_ligne_commande *ligne_commande) {
 	if (ligne_commande != NULL) {
-		printf("Commande de %d %s %-s\tprix unitaire : %7.2fCHF, total : %7.2fCHF\n", ligne_commande->quantite, ligne_commande->ptr_produit->marque, ligne_commande->ptr_produit->ref, ligne_commande->ptr_produit->prix_unitaire, ligne_commande->total_ligne);
+		printf("%4d %-10s %-10s prix unitaire : %6.2fCHF\ttotal : %10.2fCHF\n", ligne_commande->quantite, ligne_commande->ptr_produit->marque, ligne_commande->ptr_produit->ref, ligne_commande->ptr_produit->prix_unitaire, ligne_commande->total_ligne);
 	}
 }
 
