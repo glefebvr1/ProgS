@@ -37,16 +37,19 @@ typedef struct {
 } type_ligne_commande;
 
 
-//Saisie d'une chaine et 
+//Saisie d'une chaine et vérification de cette chaine 
 char *Saisie_Chaine();
 
+//saisie et vérification d'un entier
 int Saisie_Entier();
 
+//Affiche une ligne du tableau commande
 void Afficher_Ligne_Commande(type_ligne_commande *ligne_commande);
 
 //Recherche dans le tableau de commande si un n° de produit existe déjà
 type_ligne_commande *Recherche_Ligne(int no, type_ligne_commande *tab_commande, type_ligne_commande *derniere_ligne);
 
+//
 type_produit Verifie_Ligne_Produit(char ligne[], int no_ligne);
 
 // Charge le fichier produit et l'enregistre dans un tableau de structures
@@ -55,14 +58,19 @@ type_produit *Charge_Produits(char chemin_fichier[], type_produit **dernier_prod
 //Recherche dans le tableau de produits si un n° de produit existe déjà. Retourne l'adresse du produit correspondant ou NULL si ce produit n'existe pas.
 type_produit *Recherche_Produit(int no, type_produit *tab_produit, type_produit *dernier_produit);
 
+//Ajoute un ligne au tableau de commande
 void Ajout_Ligne(type_ligne_commande **tab_commande, type_ligne_commande **derniere_ligne, int nb_produits, type_produit *nv_ptr_produit, int quantite, float *total);
 
+//Modifie la quantité commandé dans le tableau de commande
 void Modif_Ligne(int nv_quantite, type_ligne_commande *ligne_commande, float *total);
 
+//Gère l'ajout, la modification et la suppression de ligne dans le tableau de commande
 void Commande_Produit(type_produit *tab_produit, type_ligne_commande **tab_commande, type_ligne_commande **derniere_ligne, type_produit *dernier_produit, float *total);
 
+//supprime un ligne dans le tableau de commande
 void Supprimer_ligne(type_ligne_commande **tab_commande, type_ligne_commande *adresse_commande, type_ligne_commande **derniere_ligne, float *total);
 
+//Génère le fichier HTML de facture au nom du client
 void Creation_Facture(char *nom, char *prenom, float total, type_ligne_commande *tab_commande, type_ligne_commande *derniere_ligne);
 
 void main() {
