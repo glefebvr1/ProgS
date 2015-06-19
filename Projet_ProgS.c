@@ -80,7 +80,7 @@ typedef struct {
 // Saisie d'une chaine et vérification de cette chaine 
 char *Saisie_Chaine();
 
-// saisie et vérification d'un entier
+// Saisie et vérification d'un entier
 int Saisie_Entier();
 
 // Affiche une ligne du tableau commande
@@ -89,7 +89,7 @@ void Afficher_Ligne_Commande(type_ligne_commande *ligne_commande);
 // Recherche dans le tableau de commande si un n° de produit existe déjà
 type_ligne_commande *Recherche_Ligne(int no, type_ligne_commande *tab_commande, type_ligne_commande *derniere_ligne);
 
-// verifie que les lignes du fichier produit ont un format correct
+// Verifie que les lignes du fichier produit ont un format correct
 type_produit Verifie_Ligne_Produit(char ligne[], int no_ligne);
 
 // Charge le fichier produit et l'enregistre dans un tableau de structures
@@ -98,16 +98,16 @@ type_produit *Charge_Produits(char chemin_fichier[], type_produit **dernier_prod
 // Recherche dans le tableau de produits si un n° de produit existe déjà. Retourne l'adresse du produit correspondant ou NULL si ce produit n'existe pas.
 type_produit *Recherche_Produit(int no, type_produit *tab_produit, type_produit *dernier_produit);
 
-// Ajoute un ligne au tableau de commande
+// Ajoute une ligne au tableau de commande
 void Ajout_Ligne(type_ligne_commande **tab_commande, type_ligne_commande **derniere_ligne, int nb_produits, type_produit *nv_ptr_produit, int quantite, float *total);
 
-// Modifie la quantité commandé dans le tableau de commande
+// Modifie la quantité d'une ligne de commande dans le tableau de commande
 void Modif_Ligne(int nv_quantite, type_ligne_commande *ligne_commande, float *total);
 
 // Gère l'ajout, la modification et la suppression de ligne dans le tableau de commande
 void Commande_Produit(type_produit *tab_produit, type_ligne_commande **tab_commande, type_ligne_commande **derniere_ligne, type_produit *dernier_produit, float *total);
 
-// supprime un ligne dans le tableau de commande
+// Supprime une ligne dans le tableau de commande
 void Supprimer_ligne(type_ligne_commande **tab_commande, type_ligne_commande *adresse_commande, type_ligne_commande **derniere_ligne, float *total);
 
 // Génère le fichier HTML de facture au nom du client
@@ -124,7 +124,7 @@ void main() {
 	type_ligne_commande *tab_commande, *ligne_commande, *derniere_ligne;
 	type_produit *tab_produit, *dernier_produit, *produit_courant;
 
-	// initialisation des variables
+	// Initialisation des variables
 	init_nom = FAUX;
 	total = 0;
 	tab_commande = NULL;
@@ -137,7 +137,7 @@ void main() {
 	// On quitte si on arrive pas à charger les produits
 	if (tab_produit != NULL) {
 
-		// Option
+		// Options
 		puts("1. Saisir le nom et le prenom du client.");
 		puts("2. Commander un produit.");
 		puts("3. Afficher la liste des produits commandes.");
@@ -250,7 +250,7 @@ char *Saisie_Chaine(){
 		fgets(chaine_tmp, MAX_CHAINE_SAISIE + 2, stdin);
 	}
 
-	// suppression du '\n'
+	// Suppression du '\n'
 	if (chaine_tmp[strlen(chaine_tmp) - 1] == '\n') {
 		chaine_tmp[strlen(chaine_tmp) - 1] = '\0';
 	}
@@ -291,7 +291,7 @@ int Saisie_Entier(){
 
 // Affichage d'une ligne de commande
 // Paramètres :
-// - ligne_commande : On affiche les lignes de ce tableau
+// - ligne_commande : élément du tableau tab_commande
 void Afficher_Ligne_Commande(type_ligne_commande *ligne_commande) {
 	if (ligne_commande != NULL) {
 		printf("Commande de %d %s %-s\tprix unitaire : %7.2fCHF, total : %7.2fCHF\n", ligne_commande->quantite, ligne_commande->ptr_produit->marque, ligne_commande->ptr_produit->ref, ligne_commande->ptr_produit->prix_unitaire, ligne_commande->total_ligne);
@@ -305,7 +305,7 @@ void Afficher_Ligne_Commande(type_ligne_commande *ligne_commande) {
 // Paramètre :
 // - no : Numéro de produit que l'on recherche
 // - tab_commande : Tableau dans lequel on recherche le produit
-// - derniere_ligne : Adresse de la dernière ligne du tableau de commande dans lequel on fait la recheche
+// - derniere_ligne : Adresse du dernier élément du tableau de commande dans lequel on fait la recheche
 type_ligne_commande *Recherche_Ligne(int no, type_ligne_commande *tab_commande, type_ligne_commande *derniere_ligne) {
 	type_ligne_commande *resultat, *element_courant;
 
@@ -331,7 +331,7 @@ type_ligne_commande *Recherche_Ligne(int no, type_ligne_commande *tab_commande, 
 // Paramètre :
 // - no : Numéro de produit que l'on recherche
 // - tab_produit : Tableau dans lequel on recherche le produit
-// - dernier_produit : Adresse de la dernière ligne du tableau de produit dans lequel on fait la recheche
+// - dernier_produit : Adresse du dernier élément du tableau de produit dans lequel on fait la recheche
 type_produit *Recherche_Produit(int no, type_produit *tab_produit, type_produit *dernier_produit) {
 	type_produit *resultat, *element_courant;
 
@@ -352,12 +352,12 @@ type_produit *Recherche_Produit(int no, type_produit *tab_produit, type_produit 
 	return resultat;
 }
 
-// Vérifie si une ligne du fichier produit ne contient pas d'erreur
+// Vérifie si une ligne du fichier "produit" ne contient pas d'erreur
 // 	Retourne le produit extrait de la ligne  si aucune erreur,
 // 	sinon retourne un produit "vide" dont le no vaut -1
 // Paramètre :
-// - ligne : contient une ligne du tableau produit que l'on va vérifier
-// - no_ligne : numéro de la ligne que l'on vérifie dans le tableau de produit
+// - ligne : Ligne du fichier "produit" que l'on va vérifier
+// - no_ligne : numéro de la ligne dans le fichier "produit"
 type_produit Verifie_Ligne_Produit(char ligne[], int no_ligne) {
 	int ret, erreur, no;
 	float prix;
@@ -405,8 +405,8 @@ type_produit Verifie_Ligne_Produit(char ligne[], int no_ligne) {
 // Toute erreur lors du chargement du fichier est considérée comme fatale et
 // 	entraîne l'annulation du chargement
 // Paramètre :
-// - chemin_fichier : chemin du fichier produit.txt que l'on consulte
-// - dernier_produit : adresse de la ligne du dernier produit du tableau de produit
+// - chemin_fichier : chemin du fichier produit.txt que l'on charge
+// - dernier_produit : adresse de la ligne du dernier produit du tableau tab_produit
 type_produit *Charge_Produits(char chemin_fichier[], type_produit **dernier_produit) {
 	FILE *fichier_produit;
 	char ligne[MAX_LIGNE + 2], *ret;
@@ -483,12 +483,12 @@ type_produit *Charge_Produits(char chemin_fichier[], type_produit **dernier_prod
 // Ajoute une ligne de commande au tableau des commandes, recalcule le total de la commande
 // et incrémente le pointeur de dernière ligne de commande
 // Paramètre :
-// - nb_produits : nombre de produit total dans le tableau produit
-// - nv_ptr_produit : adresse du produit sélectionné dans le tableau de produit
-// - total :prix total de la commande, qui sera ici modifiée
-// - quantite : quantite que l'on veut commande du produit choisi
+// - nb_produits : nombre de produit total dans le tableau tab_produit
+// - nv_ptr_produit : adresse du produit choisi dans le tableau tab_produit
+// - total : prix total de la commande, qui sera ici modifiée
+// - quantite : quantite que l'on veut commander du produit choisi
 // - tab_commande : Tableau dans lequel on va ajouter une ligne pour le produit commandé
-// - derniere_ligne : Adresse de la dernière ligne du tableau de commande
+// - derniere_ligne : Adresse de la dernière ligne du tableau tab_commande
 void Ajout_Ligne(type_ligne_commande **tab_commande, type_ligne_commande **derniere_ligne, int nb_produits, type_produit *nv_ptr_produit, int quantite, float *total) {
 
 	if (nb_produits <= 0 || nv_ptr_produit == NULL) {
@@ -522,7 +522,7 @@ void Ajout_Ligne(type_ligne_commande **tab_commande, type_ligne_commande **derni
 // Modifie une ligne de commande du tableau des commandes et recalcule le total de la commande
 // Paramètre :
 // - nv_quantite : modification que l'on apporte à la quantite d'un produit commande
-// - ligne_commande : adresse de la ligne du tableau où la quantite sera modifiée
+// - ligne_commande : adresse de la ligne du tableau tab_commande où la quantite sera modifiée
 // - total : prix total de la commande, qui sera ici modifiée
 void Modif_Ligne(int nv_quantite, type_ligne_commande *ligne_commande, float *total) {
 
@@ -550,16 +550,16 @@ void Modif_Ligne(int nv_quantite, type_ligne_commande *ligne_commande, float *to
 // 	décrémente le pointeur de dernière ligne de commande
 // Paramètre :
 // - tab_commande : tableau qui contient les commandes. l'une d'elle sera supprimée.
-// - adresse_commande : adresse correspondant à la ligne qui sera supprimée
+// - adresse_commande : adresse correspondant à l'élément qui sera supprimé
 // - total : prix total de la commande, qui sera ici modifiée
-// - derniere_ligne : adresse de la dernière ligne du tableau commande
+// - derniere_ligne : adresse de la dernière ligne du tableau tab_commande
 void Supprimer_ligne(type_ligne_commande **tab_commande, type_ligne_commande *adresse_commande, type_ligne_commande **derniere_ligne, float *total) {
 
 	if (*tab_commande != NULL && adresse_commande != NULL && *derniere_ligne != NULL) {
 
 		*total = *total - (adresse_commande->total_ligne);
 
-		// décalage des éléments
+		// Décalage des éléments
 		while (adresse_commande < *derniere_ligne) {
 			*adresse_commande = *(adresse_commande + 1);
 			adresse_commande++;
@@ -584,8 +584,8 @@ void Supprimer_ligne(type_ligne_commande **tab_commande, type_ligne_commande *ad
 // Paramètre :
 // - tab_produit : tableau contenant tous les produits. On ira y chercher les adresses des lignes du tableau selon les produit
 // - tab_commande : tableau dans lequel seront ajouté, modifié ou supprimé des lignes correspondant à des commandes de produit
-// - derniere_ligne : Adresse de la dernière ligne du tableau de commande
-// - dernier_produit : Adresse de la dernière ligne du tableau de produit
+// - derniere_ligne : Adresse de la dernière ligne du tableau de tab_commande
+// - dernier_produit : Adresse de la dernière ligne du tableau tab_produit
 // - total : Prix total de la commande
 void Commande_Produit(type_produit *tab_produit, type_ligne_commande **tab_commande, type_ligne_commande **derniere_ligne, type_produit *dernier_produit, float *total) {
 
@@ -639,8 +639,8 @@ void Commande_Produit(type_produit *tab_produit, type_ligne_commande **tab_comma
 // - nom : nom du client
 // - prenom : prénom du client
 // - total : prix total de la commande
-// - tab_commande : tableau conteant toutes les commandes qui seront ajoutées dans le fichier facture
-// - dernier_ligne : adresse de la dernière ligne du tableau de commande
+// - tab_commande : tableau contenant toutes les lignes de commande
+// - dernier_ligne : adresse de la dernière ligne du tableau tab_commande
 void Creation_Facture(char *nom, char *prenom, float total, type_ligne_commande *tab_commande, type_ligne_commande *derniere_ligne) {
 	FILE *fichier_facture;
 	char nom_complet[MAX_CHAINE];
