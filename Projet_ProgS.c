@@ -1,3 +1,42 @@
+/*
+Titre			Projet de ProgS
+
+Auteurs			François Bavaud et Guillaume Lefebvre
+
+Description		Programme qui créé un fichier au format HTML à partir d'une commande
+				passée par un client et d'un fichier contenant les produits
+
+Date			19.06.2015
+Version			1.0
+
+Analyse :
+Ce programme gère un seul client et une seule commande, elle-même composée de plusieurs lignes, où
+chaque ligne correspond à un produit. On voit donc qu'il n'est pas nécessaire de créer une structure
+client ou une structure commande, ceux-ci n'existant qu'à un seul exemplaire.
+Par contre, les produits et les lignes de commandes existant en de nombreux exemplaires, il est donc
+plus facile de créer une structure pour chacun d'entre eux, puis d'insérer ces structures dans des
+tableaux.
+
+Structure du programme :
+- Ouverture du fichier produit, puis chargement de son contenu dans le tableau "tab_produit" de structures "type_produit"
+- L'utilisateur est ensuite invité à saisir son nom et son prénom, puis de commander un produit
+- Pour chaque produit commandé, une structure "type_ligne_commande" est ajoutée au tableau "tab_commande"
+- Ensuite l'utilisateur a le loisir de commander d'autres produits, de modifier les quantités commandées
+	et de supprimer un produit commandé
+- L'utilisateur peut aussi, a tout moment, afficher la facture de la commande ou la générer ua format HTML
+
+Choix techniques :
+- Utilisation d'un pointeur vers une structure "type_produit" depuis la structure "type_ligne_commande" afin
+	de miniser la mémoire utilisée et éviter la redondance des informations
+- Utilisation de pointeurs pour manipuler les tableaux afin d'une part de mieux se familiariser avec les pointeurs
+	et d'autre part afin de minimiser l'espace mémoire occupé en n'allouant que l'espace nécessaire grâce à
+	l'utilisation de l'allocation dynamique.
+	Les tableaux "tab_produit" et "tab_commande" possèdent donc chacun un pointeur de premier et de dernier
+	élément.
+- Utilisation massive de tests pour vérifier les paramètres de chaque fonction, afin de minimiser non pas les 
+	erreurs de saisies, mais plutôt les erreurs de programmation
+*/
+
 #include <stdlib.h>
 #include <stdio.h>
 #include <string.h>
