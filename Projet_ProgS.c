@@ -446,7 +446,7 @@ type_produit *Charge_Produits(char chemin_fichier[], type_produit **dernier_prod
 // - pas de ligne
 void Ajout_Ligne(type_ligne_commande **tab_commande, type_ligne_commande **derniere_ligne, int nb_produits, type_produit *nv_ptr_produit, int quantite, float *total) {
 
-	if (nb_produits <= 0 || *derniere_ligne == NULL || nv_ptr_produit == NULL) {
+	if (nb_produits <= 0 || nv_ptr_produit == NULL) {
 		puts("Erreur d'adressage");
 	}
 	else {
@@ -593,7 +593,8 @@ void Creation_Facture(char *nom, char *prenom, float total, type_ligne_commande 
 
 	if (tab_commande == NULL || derniere_ligne == NULL) {
 		puts("Erreur d'adressage");
-	} {
+	}
+	else {
 		// On nomme le fichier d'après le nom et prénom de la personne
 		strcpy(nom_complet, nom);
 		strcat(nom_complet, prenom);
@@ -601,16 +602,6 @@ void Creation_Facture(char *nom, char *prenom, float total, type_ligne_commande 
 
 		if (fichier_facture == NULL) {
 			puts("Impossible de creer le fichier");
-	}
-	else {
-		fputs("<html>\n<head>\n<title>Facture</title>\n</head>\n<body>\n", fichier_facture);
-		fprintf(fichier_facture, "<h1>Facture de %s %s</h1>\n", nom, prenom);
-		fputs("<table border>\n<tr bgcolor=\"yellow\">", fichier_facture);
-		fputs("<td>No</td><td>Marque</td><td>Ref</td><td>Prix</td><td>Nb</td><td>Total</td></tr>\n", fichier_facture);
-		// On imprime chaque ligne de commande
-		while (tab_commande <= derniere_ligne) {
-			fprintf(fichier_facture, "<tr><td>%d</td><td>%s</td><td>%s</td><td>%.2f</td><td>%d</td><td align=\"right\">%.2f</td></tr>\n", tab_commande->ptr_produit->no, tab_commande->ptr_produit->marque, tab_commande->ptr_produit->ref, tab_commande->ptr_produit->prix_unitaire, tab_commande->quantite, tab_commande->total_ligne);
-			tab_commande++;
 		}
 		else {
 			fputs("<html>\n<head>\n<title>Facture</title>\n</head>\n<body>\n", fichier_facture);
