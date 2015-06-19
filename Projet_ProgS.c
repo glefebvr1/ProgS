@@ -135,7 +135,13 @@ void main() {
 			// Génération de la facture HTML
 			case 4:
 				if (init_nom) {
-					Creation_Facture(nom, prenom, total, tab_commande, derniere_ligne);
+					if (tab_commande != NULL) {
+						Creation_Facture(nom, prenom, total, tab_commande, derniere_ligne);
+					}
+					else {
+						puts("Vous ne pouvez pas generer de facture tant que");
+						puts("vous n'avez pas passe de commande.");
+					}
 				}
 				else {
 					puts("Vous ne pouvez pas generer de facture tant que");
@@ -174,10 +180,6 @@ void main() {
 // Vérifie qu'une chaîne saisie soit correcte : pas de chaine vide ni de
 //	chaîne trop longue. Pas de caractères spéciaux.
 // Retourne la chaîne de caractère saisie par l'utilisateur
-// Tests :
-// - Saisie d'une chaine trop longue
-// - allocation mémoire pour strlen + 1
-// - saisie d'une chaine vide (\n)
 char *Saisie_Chaine(){
 	char chaine_tmp[MAX_CHAINE_SAISIE + 2], *chaine;
 
@@ -209,10 +211,6 @@ char *Saisie_Chaine(){
 }
 
 // Propose et vérifie la saisie d'un entier par l'utilisateur
-// Tests :
-// - Saisie vide (\n)
-// - Saisie trop longue
-// - Saisie de valeur non entières
 int Saisie_Entier(){
 	char entier[MAX_INT + 2];
 	int ret, valeur;
@@ -239,7 +237,7 @@ int Saisie_Entier(){
 	return valeur;
 }
 
-// Affichage d'une ligne de commande uniquement si elle est définie
+// Affichage d'une ligne de commande
 void Afficher_Ligne_Commande(type_ligne_commande *ligne_commande) {
 	if (ligne_commande != NULL) {
 		printf("Commande de %d %s %-s\tprix unitaire : %7.2fCHF, total : %7.2fCHF\n", ligne_commande->quantite, ligne_commande->ptr_produit->marque, ligne_commande->ptr_produit->ref, ligne_commande->ptr_produit->prix_unitaire, ligne_commande->total_ligne);
@@ -250,10 +248,6 @@ void Afficher_Ligne_Commande(type_ligne_commande *ligne_commande) {
 //	le no de produit donné
 // Renvoie NULL si aucune ligne de commande n'existe pour le no de produit donné,
 //	sinon renvoie un pointeur vers la ligne contenant le produit
-// Tests :
-// - n'importe quelle valeur de no
-// - tab_commande NULL
-// - dépassement de capacité
 type_ligne_commande *Recherche_Ligne(int no, type_ligne_commande *tab_commande, type_ligne_commande *derniere_ligne) {
 	type_ligne_commande *resultat, *element_courant;
 
@@ -276,10 +270,6 @@ type_ligne_commande *Recherche_Ligne(int no, type_ligne_commande *tab_commande, 
 
 //Recherche dans le tableau de produits si un n° de produit existe déjà.
 // Retourne un pointeur vers le produit correspondant ou NULL si ce produit n'existe pas.
-// Tests :
-// - n'importe quelle valeur de no
-// - tab_produit NULL
-// - dépassement de capacité
 type_produit *Recherche_Produit(int no, type_produit *tab_produit, type_produit *dernier_produit) {
 	type_produit *resultat, *element_courant;
 
@@ -349,18 +339,6 @@ type_produit Verifie_Ligne_Produit(char ligne[], int no_ligne) {
 //	sinon renvoie NULL
 // Toute erreur lors du chargement du fichier est considérée comme fatale et
 //	entraîne l'annulation du chargement
-// Tests
-// - ligne incomplète
-// - ligne vide
-// - valeur incorrecte dans champ
-// - no produit < 0
-// - fichier inexistant
-// - pas de droits sur le fichier
-// - nombre de produits trop élevés
-// - erreur de fermeture du fichier
-// - longueur de ligne trop grande dans fichier
-// - gestion des doublons
-// - fichier vide
 type_produit *Charge_Produits(char chemin_fichier[], type_produit **dernier_produit) {
 	FILE *fichier_produit;
 	char ligne[MAX_LIGNE + 2], *ret;
@@ -436,9 +414,6 @@ type_produit *Charge_Produits(char chemin_fichier[], type_produit **dernier_prod
 
 // Ajoute une ligne de commande au tableau des commandes, recalcule le total de la commande
 // et incrémente le pointeur de dernière ligne de commande
-// Tests
-// - quantité <= 0
-// - pas de ligne
 void Ajout_Ligne(type_ligne_commande **tab_commande, type_ligne_commande **derniere_ligne, int nb_produits, type_produit *nv_ptr_produit, int quantite, float *total) {
 
 	if (nb_produits <= 0 || nv_ptr_produit == NULL) {
@@ -470,8 +445,6 @@ void Ajout_Ligne(type_ligne_commande **tab_commande, type_ligne_commande **derni
 }
 
 // Modifie une ligne de commande du tableau des commandes et recalcule le total de la commande
-// Tests
-// - empecher quantite negatives
 void Modif_Ligne(int nv_quantite, type_ligne_commande *ligne_commande, float *total) {
 
 	if (ligne_commande == NULL) {
@@ -496,8 +469,6 @@ void Modif_Ligne(int nv_quantite, type_ligne_commande *ligne_commande, float *to
 // Supprime une ligne de commande du tableau des commandes, recalcule le total de la commande,
 //	décale les éléments du tableau situés à droite de l'élément supprimé d'un cran à gauche et
 //	décrémente le pointeur de dernière ligne de commande
-// Tests
-// - ligne commande vide
 void Supprimer_ligne(type_ligne_commande **tab_commande, type_ligne_commande *adresse_commande, type_ligne_commande **derniere_ligne, float *total) {
 
 	if (*tab_commande != NULL && adresse_commande != NULL && *derniere_ligne != NULL) {
